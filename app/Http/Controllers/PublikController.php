@@ -17,26 +17,29 @@ use App\Models\Member;
 
 use Illuminate\Support\Str;
 
-class PublikController extends Controller {
+class PublikController extends Controller
+{
 
-  public function index() {
-    $expiration = env('REDIS_TIME', 86400);
-    $banners = Cache::remember('banner_data', $expiration, function () {
-        return Banner::where('status', 1)->get();
-    });
+    //   public function index() {
+    //     $expiration = env('REDIS_TIME', 86400);
+    //     $banners = Cache::remember('banner_data', $expiration, function () {
+    //         return Banner::where('status', 1)->get();
+    //     });
 
-    return view('publik.main', compact('banners'));
-  }
+    //     return view('publik.main', compact('banners'));
+    //   }
 
-  public function berita() {
+    //   public function berita() {
 
-    $expiration = env('REDIS_TIME', 86400);
-    $beritas = Cache::remember('beritas_data', $expiration, function () {
-        return Berita::all();
-    });
-    
-    return view('publik.berita', compact('beritas'));
-  }
-   
+    //     $expiration = env('REDIS_TIME', 86400);
+    //     $beritas = Cache::remember('beritas_data', $expiration, function () {
+    //         return Berita::all();
+    //     });
 
+    //     return view('publik.berita', compact('beritas'));
+    //   }
+    public function index()
+    {
+        return view('front.index');
+    }
 }

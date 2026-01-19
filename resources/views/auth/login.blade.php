@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Trader Rahman Community (TRC)</title>
+
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link href="{{ asset('template') }}/css/style.css" rel="stylesheet">
+</head>
+
+<body>
+    <div class="auth-page">
+        <div class="auth-container">
+            <div class="auth-card">
+                <div class="auth-logo">
+                    <a href="{{ route('home') }}">
+                        <img src="https://traderrahamancommunity.com/trc-logo.jpg" alt="TRC Logo">
+                    </a>
+                </div>
+
+                <h1 class="auth-title">Selamat Datang</h1>
+                <p class="auth-subtitle">Login ke akun member TRC Anda</p>
+
+                <form id="loginForm" action="{{ route('member.login') }}" method="POST">
+                    @csrf
+                    <div class="form-group">
+                        <label class="form-label">Email</label>
+                        <div class="input-group">
+                            <i class="bi bi-envelope input-icon"></i>
+                            <input type="email" class="form-control" id="email" placeholder="Masukkan email Anda"
+                                name="email" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Password</label>
+                        <div class="input-group">
+                            <i class="bi bi-lock input-icon"></i>
+                            <input type="password" class="form-control" id="password" placeholder="Masukkan password"
+                                required name="password">
+                            <button type="button" class="password-toggle" onclick="togglePassword('password')">
+                                <i class="bi bi-eye" id="passwordIcon"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input" id="remember">
+                            <label class="form-check-label" for="remember">Ingat saya</label>
+                        </div>
+                        <a href="#" class="auth-link">Lupa password?</a>
+                    </div>
+
+                    <button type="submit" class="btn-gold w-100 mb-3">
+                        <i class="bi bi-box-arrow-in-right me-2"></i>Login
+                    </button>
+
+                    <div class="auth-divider">
+                        <span>atau</span>
+                    </div>
+
+                    <p class="text-center" style="color: var(--text-secondary);">
+                        Belum punya akun? <a href="register.html" class="auth-link">Daftar sekarang</a>
+                    </p>
+                </form>
+            </div>
+
+            <p class="text-center mt-4" style="color: var(--text-muted); font-size: 0.9rem;">
+                <a href="index.html" style="color: var(--text-muted); text-decoration: none;">
+                    <i class="bi bi-arrow-left me-1"></i>Kembali ke Beranda
+                </a>
+            </p>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        function togglePassword(inputId) {
+            const input = document.getElementById(inputId);
+            const icon = document.getElementById(inputId + 'Icon');
+
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.classList.remove('bi-eye');
+                icon.classList.add('bi-eye-slash');
+            } else {
+                input.type = 'password';
+                icon.classList.remove('bi-eye-slash');
+                icon.classList.add('bi-eye');
+            }
+        }
+
+        // document.getElementById('loginForm').addEventListener('submit', function(e) {
+        //     e.preventDefault();
+        //     // Demo: redirect to dashboard
+        //     window.location.href = 'dashboard.html';
+        // });
+    </script>
+</body>
+
+</html>
