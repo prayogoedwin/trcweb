@@ -4,6 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
     <title>Dashboard - Trader Rahman Community (TRC)</title>
 
     <!-- Bootstrap 5 CSS -->
@@ -30,6 +32,18 @@
             document.getElementById('sidebarOverlay').classList.toggle('show');
         }
     </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const currentUrl = window.location.href;
+
+            document.querySelectorAll('.sidebar-menu .menu-item').forEach(item => {
+                if (item.href === currentUrl) {
+                    item.classList.add('active');
+                }
+            });
+        });
+    </script>
+
     @stack('script')
 </body>
 

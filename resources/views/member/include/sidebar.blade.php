@@ -7,7 +7,7 @@
 
     <nav class="sidebar-menu">
         <div class="menu-label">Menu Utama</div>
-        <a href="{{ route('member.dashboard') }}" class="menu-item active">
+        <a href="{{ route('member.dashboard') }}" class="menu-item">
             <i class="bi bi-grid-1x2"></i>
             <span>Dashboard</span>
         </a>

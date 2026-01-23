@@ -67,13 +67,13 @@
                     </div>
 
                     <p class="text-center" style="color: var(--text-secondary);">
-                        Belum punya akun? <a href="register.html" class="auth-link">Daftar sekarang</a>
+                        Belum punya akun? <a href="{{ route('member.register') }}" class="auth-link">Daftar sekarang</a>
                     </p>
                 </form>
             </div>
 
             <p class="text-center mt-4" style="color: var(--text-muted); font-size: 0.9rem;">
-                <a href="index.html" style="color: var(--text-muted); text-decoration: none;">
+                <a href="{{ route('home') }}" style="color: var(--text-muted); text-decoration: none;">
                     <i class="bi bi-arrow-left me-1"></i>Kembali ke Beranda
                 </a>
             </p>

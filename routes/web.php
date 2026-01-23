@@ -92,12 +92,17 @@ Route::prefix('member')->group(function () {
         // Route::post('/profil_update', [DashboardMember::class, 'updateProfil'])->name('member.profil_update');
 
         Route::get('saldo', [SaldoController::class, 'index'])->name('member.saldo');
+        Route::post('topup-saldo', [SaldoController::class, 'topupSaldo'])->name('member.topup-saldo');
         Route::get('modal', [ModalController::class, 'index'])->name('member.modal');
         Route::get('profit', [ProfitController::class, 'index'])->name('member.profit');
         Route::get('riwayat-saldo', [RiwayatController::class, 'index'])->name('member.riwayat-saldo');
         Route::get('riwayat-modal', [RiwayatController::class, 'riwayatModal'])->name('member.riwayat-modal');
         Route::get('riwayat-profit', [RiwayatController::class, 'riwayatProfit'])->name('member.riwayat-profit');
         Route::get('profile', [ProfileController::class, 'index'])->name('member.profile');
+        Route::post('profile-update', [ProfileController::class, 'updateProfil'])->name('member.profil-update');
+        Route::post('profile-update-password', [ProfileController::class, 'updatePassword'])->name('member.profil-update-password');
+        Route::post('bank', [ProfileController::class, 'addBank'])->name('member.bank');
+        Route::delete('bank/{bank}', [ProfileController::class, 'deleteBank'])->name('member.bank-delete');
     });
 });
 

@@ -3,7 +3,8 @@
 use Illuminate\Support\Facades\Cache;
 
 if (!function_exists('addCacheWithRegistry')) {
-    function addCacheWithRegistry($key, $expiration, $callback) {
+    function addCacheWithRegistry($key, $expiration, $callback)
+    {
         $value = Cache::remember($key, $expiration, $callback);
 
         $cacheKeys = Cache::get('custom_cache_keys', []);
@@ -18,7 +19,8 @@ if (!function_exists('addCacheWithRegistry')) {
 
 
 if (!function_exists('clearRegisteredCaches')) {
-    function clearRegisteredCaches() {
+    function clearRegisteredCaches()
+    {
         $keys = Cache::get('custom_cache_keys', []);
         foreach ($keys as $key) {
             Cache::forget($key);

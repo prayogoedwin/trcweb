@@ -51,17 +51,17 @@ class BackendPanelProvider extends PanelProvider
                 WebInfoWidget::class,
                 MaintenanceToggle::class,
                 ClearCacheWidget::class,
-              
+
             ])
             ->navigationGroups([
                 'Sistem', // Grup default Filament
                 'Pengguna', // Grup default Filament
                 'Web Setting', // Grup custom
-               
-               
+
+
                 // Urutan grup sesuai kebutuhan
             ])
-           
+
             ->middleware([
                 EncryptCookies::class,
                 AddQueuedCookiesToResponse::class,
@@ -75,6 +75,7 @@ class BackendPanelProvider extends PanelProvider
             ])
             ->authMiddleware([
                 Authenticate::class,
-            ]);
+            ])
+            ->databaseNotifications();;
     }
 }

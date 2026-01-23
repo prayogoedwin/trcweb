@@ -12,7 +12,7 @@
                 <div class="user-profile" style="display: flex; align-items: center; gap: 10px;">
                     <div class="user-avatar">AR</div>
                     <div class="user-info d-none d-sm-block">
-                        <div class="user-name">Abdul Rahman</div>
+                        <div class="user-name">{{ ucwords($data->name) }}</div>
                         <div class="user-role">Member</div>
                     </div>
                 </div>
@@ -22,9 +22,9 @@
         <div class="profile-header">
             <div class="profile-avatar-large">AR</div>
             <div class="profile-info">
-                <h2>Abdul Rahman</h2>
-                <p><i class="bi bi-envelope me-2"></i>abdulrahman@email.com</p>
-                <p><i class="bi bi-phone me-2"></i>+62 812 3456 7890</p>
+                <h2>{{ ucwords($data->name) }}</h2>
+                <p><i class="bi bi-envelope me-2"></i>{{ $data->email }}</p>
+                <p><i class="bi bi-phone me-2"></i>{{ $data->whatsapp }}</p>
                 <span class="profile-badge"><i class="bi bi-patch-check-fill me-1"></i>Member Aktif</span>
             </div>
         </div>
@@ -41,25 +41,25 @@
                     </div>
                     <div class="mb-3">
                         <label style="color: var(--text-muted); font-size: 0.85rem;">Nama Lengkap</label>
-                        <p style="color: var(--text-primary); margin: 5px 0 0;">Abdul Rahman</p>
+                        <p style="color: var(--text-primary); margin: 5px 0 0;">{{ ucwords($data->name) }}</p>
                     </div>
                     <div class="mb-3">
                         <label style="color: var(--text-muted); font-size: 0.85rem;">Email</label>
-                        <p style="color: var(--text-primary); margin: 5px 0 0;">abdulrahman@email.com</p>
+                        <p style="color: var(--text-primary); margin: 5px 0 0;">{{ $data->email }}</p>
                     </div>
                     <div class="mb-3">
                         <label style="color: var(--text-muted); font-size: 0.85rem;">No. HP / WhatsApp</label>
-                        <p style="color: var(--text-primary); margin: 5px 0 0;">+62 812 3456 7890</p>
+                        <p style="color: var(--text-primary); margin: 5px 0 0;">{{ $data->whatsapp }}</p>
                     </div>
                     <div class="mb-3">
                         <label style="color: var(--text-muted); font-size: 0.85rem;">Bergabung Sejak</label>
-                        <p style="color: var(--text-primary); margin: 5px 0 0;">10 Januari 2024</p>
+                        <p style="color: var(--text-primary); margin: 5px 0 0;">{{ $data->created_at }}</p>
                     </div>
                     <div>
                         <label style="color: var(--text-muted); font-size: 0.85rem;">Kode Referral Anda</label>
                         <div class="d-flex align-items-center gap-2 mt-1">
                             <code
-                                style="background: var(--bg-tertiary); padding: 10px 20px; border-radius: 8px; color: var(--gold); font-size: 1.1rem;">TRC-AR2024</code>
+                                style="background: var(--bg-tertiary); padding: 10px 20px; border-radius: 8px; color: var(--gold); font-size: 1.1rem;">{{ $data->no_referal }}</code>
                             <button class="btn btn-sm"
                                 style="background: var(--bg-tertiary); color: var(--text-secondary); border: 1px solid var(--border-color);"
                                 onclick="copyReferral()">
@@ -73,30 +73,29 @@
                 <div class="dashboard-card h-100">
                     <div class="card-header">
                         <h5 class="card-title"><i class="bi bi-credit-card"></i> Rekening Bank</h5>
-                        <button class="auth-link" style="background: none; border: none;" data-bs-toggle="modal"
-                            data-bs-target="#addBankModal">
-                            <i class="bi bi-plus-circle me-1"></i>Tambah
-                        </button>
+                        @if ($bank->count() == 0)
+                            <button class="auth-link" style="background: none; border: none;" data-bs-toggle="modal"
+                                data-bs-target="#addBankModal">
+                                <i class="bi bi-plus-circle me-1"></i>Tambah
+                            </button>
+                        @endif
                     </div>
-                    <div class="bank-card mb-3">
-                        <div class="d-flex justify-content-between align-items-start">
-                            <div class="bank-name"><i class="bi bi-bank me-2"></i>Bank BCA</div>
-                            <span class="status-badge success">Utama</span>
-                        </div>
-                        <div class="bank-number">1234 5678 90</div>
-                        <div class="bank-holder">Abdul Rahman</div>
-                    </div>
-                    <div class="bank-card" style="border-color: var(--silver);">
-                        <div class="d-flex justify-content-between align-items-start">
-                            <div class="bank-name" style="color: var(--silver);"><i class="bi bi-bank me-2"></i>Bank BNI
+                    @foreach ($bank as $item)
+                        <div class="bank-card mb-3">
+                            <div class="d-flex justify-content-between align-items-start">
+                                <div class="bank-name"><i class="bi bi-bank me-2"></i>Bank {{ $item->nama_bank }}</div>
+                                <form action="{{ route('member.bank-delete', $item->id) }}" method="POST">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-danger btn-sm rounded-md">
+                                        Delete
+                                    </button>
+                                </form>
                             </div>
-                            <button class="btn btn-sm"
-                                style="background: transparent; border: 1px solid var(--border-color); color: var(--text-muted); font-size: 0.75rem;">Jadikan
-                                Utama</button>
+                            <div class="bank-number">{{ $item->no_rekening }}</div>
+                            <div class="bank-holder">{{ ucwords($item->atas_nama) }}</div>
                         </div>
-                        <div class="bank-number">0987 6543 21</div>
-                        <div class="bank-holder">Abdul Rahman</div>
-                    </div>
+                    @endforeach
                 </div>
             </div>
         </div>
@@ -160,7 +159,8 @@
                                     <div>
                                         <h6 style="color: var(--text-primary); margin-bottom: 5px;"><i
                                                 class="bi bi-key me-2"></i>Ubah Password</h6>
-                                        <small style="color: var(--text-muted);">Terakhir diubah: 10 Jan 2024</small>
+                                        <small style="color: var(--text-muted);">Terakhir diubah:
+                                            {{ $data->updated_at->diffForHumans() }}</small>
                                     </div>
                                     <button class="btn-silver" style="padding: 8px 16px; font-size: 0.9rem;"
                                         data-bs-toggle="modal" data-bs-target="#changePasswordModal">Ubah</button>
@@ -195,20 +195,25 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body">
-                    <div class="form-group">
-                        <label class="form-label">Nama Lengkap</label>
-                        <input type="text" class="form-control" value="Abdul Rahman">
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">Email</label>
-                        <input type="email" class="form-control" value="abdulrahman@email.com">
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">No. HP / WhatsApp</label>
-                        <input type="tel" class="form-control" value="+62 812 3456 7890">
-                    </div>
-                    <button type="button" class="btn-gold w-100"><i class="bi bi-check-circle me-2"></i>Simpan
-                        Perubahan</button>
+                    <form action="{{ route('member.profil-update') }}" method="post">
+                        @csrf
+                        <input type="hidden" name="id" value="{{ $data->id }}">
+                        <div class="form-group">
+                            <label class="form-label">Nama Lengkap</label>
+                            <input type="text" class="form-control" value="{{ ucwords($data->name) }}"
+                                name="name">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Email</label>
+                            <input type="email" class="form-control" value="{{ $data->email }}" name="email">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">No. HP / WhatsApp</label>
+                            <input type="tel" class="form-control" value="{{ $data->whatsapp }}" name="whatsapp">
+                        </div>
+                        <button type="submit" class="btn-gold w-100"><i class="bi bi-check-circle me-2"></i>Simpan
+                            Perubahan</button>
+                    </form>
                 </div>
             </div>
         </div>
@@ -222,32 +227,37 @@
                     <h5 class="modal-title"><i class="bi bi-plus-circle me-2"></i>Tambah Rekening Bank</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
-                <div class="modal-body">
-                    <div class="form-group">
-                        <label class="form-label">Nama Bank</label>
-                        <select class="form-control">
-                            <option value="">Pilih Bank</option>
-                            <option value="bca">Bank BCA</option>
-                            <option value="bni">Bank BNI</option>
-                            <option value="bri">Bank BRI</option>
-                            <option value="mandiri">Bank Mandiri</option>
-                        </select>
+                <form action="{{ route('member.bank') }}" method="POST">
+                    @csrf
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label class="form-label">Nama Bank</label>
+                            <select class="form-control" name="nama_bank">
+                                <option value="">Pilih Bank</option>
+                                <option value="bca">Bank BCA</option>
+                                <option value="bni">Bank BNI</option>
+                                <option value="bri">Bank BRI</option>
+                                <option value="mandiri">Bank Mandiri</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Nomor Rekening</label>
+                            <input type="text" class="form-control" name="no_rekening"
+                                placeholder="Masukkan nomor rekening">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Nama Pemilik Rekening</label>
+                            <input type="text" class="form-control" name="atas_nama"
+                                placeholder="Sesuai buku tabungan">
+                        </div>
+                        <div class="form-check mb-4">
+                            <input type="checkbox" class="form-check-input" id="primaryBank" name="utama">
+                            <label class="form-check-label" for="primaryBank">Jadikan rekening utama</label>
+                        </div>
+                        <button type="submit" class="btn-gold w-100"><i class="bi bi-plus-circle me-2"></i>Tambah
+                            Rekening</button>
                     </div>
-                    <div class="form-group">
-                        <label class="form-label">Nomor Rekening</label>
-                        <input type="text" class="form-control" placeholder="Masukkan nomor rekening">
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">Nama Pemilik Rekening</label>
-                        <input type="text" class="form-control" placeholder="Sesuai buku tabungan">
-                    </div>
-                    <div class="form-check mb-4">
-                        <input type="checkbox" class="form-check-input" id="primaryBank">
-                        <label class="form-check-label" for="primaryBank">Jadikan rekening utama</label>
-                    </div>
-                    <button type="button" class="btn-gold w-100"><i class="bi bi-plus-circle me-2"></i>Tambah
-                        Rekening</button>
-                </div>
+                </form>
             </div>
         </div>
     </div>
@@ -261,20 +271,26 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body">
-                    <div class="form-group">
-                        <label class="form-label">Password Lama</label>
-                        <input type="password" class="form-control" placeholder="Masukkan password lama">
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">Password Baru</label>
-                        <input type="password" class="form-control" placeholder="Minimal 8 karakter">
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">Konfirmasi Password Baru</label>
-                        <input type="password" class="form-control" placeholder="Ulangi password baru">
-                    </div>
-                    <button type="button" class="btn-gold w-100"><i class="bi bi-check-circle me-2"></i>Ubah
-                        Password</button>
+                    <form action="{{ route('member.profil-update-password') }}" method="POST">
+                        @csrf
+                        <div class="form-group">
+                            <label class="form-label">Password Lama</label>
+                            <input type="password" class="form-control" placeholder="Masukkan password lama"
+                                name="current_password">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Password Baru</label>
+                            <input type="password" class="form-control" placeholder="Minimal 8 karakter"
+                                name="password">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Konfirmasi Password Baru</label>
+                            <input type="password" class="form-control" placeholder="Ulangi password baru"
+                                name="password_confirmation">
+                        </div>
+                        <button type="submit" class="btn-gold w-100"><i class="bi bi-check-circle me-2"></i>Ubah
+                            Password</button>
+                    </form>
                 </div>
             </div>
         </div>
@@ -283,7 +299,7 @@
 @push('script')
     <script>
         function copyReferral() {
-            navigator.clipboard.writeText('TRC-AR2024');
+            navigator.clipboard.writeText('{{ $data->no_referal }}');
             alert('Kode referral berhasil disalin!');
         }
     </script>

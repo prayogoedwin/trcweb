@@ -29,7 +29,7 @@
                         <span class="stat-card-badge up"><i class="bi bi-check-circle"></i> Dapat Ditarik</span>
                     </div>
                     <div class="stat-card-label">Saldo Akun Anda</div>
-                    <div class="stat-card-value gold" style="font-size: 2.5rem;">Rp 2.500.000</div>
+                    <div class="stat-card-value gold" style="font-size: 2.5rem;">Rp {{ number_format($saldo, 0) }}</div>
                     <div class="mt-3 d-flex gap-2">
                         <button class="btn-green" data-bs-toggle="modal" data-bs-target="#topupModal">
                             <i class="bi bi-plus-circle me-1"></i>Topup
@@ -85,33 +85,245 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>17 Jan 2024, 10:30</td>
-                            <td><span style="color: var(--profit-green);"><i
-                                        class="bi bi-arrow-down-circle me-1"></i>Topup</span></td>
-                            <td style="color: var(--profit-green);">+Rp 500.000</td>
-                            <td>QRIS</td>
-                            <td><span class="status-badge success">Berhasil</span></td>
-                        </tr>
-                        <tr>
-                            <td>15 Jan 2024, 08:00</td>
-                            <td><span style="color: var(--loss-red);"><i
-                                        class="bi bi-arrow-up-circle me-1"></i>Withdraw</span></td>
-                            <td style="color: var(--loss-red);">-Rp 200.000</td>
-                            <td>Bank Transfer</td>
-                            <td><span class="status-badge success">Berhasil</span></td>
-                        </tr>
-                        <tr>
-                            <td>12 Jan 2024, 16:45</td>
-                            <td><span style="color: var(--profit-green);"><i
-                                        class="bi bi-arrow-down-circle me-1"></i>Topup</span></td>
-                            <td style="color: var(--profit-green);">+Rp 1.000.000</td>
-                            <td>QRIS</td>
-                            <td><span class="status-badge success">Berhasil</span></td>
-                        </tr>
+                        @foreach ($riwayat as $item)
+                            @php
+                                $isTopup = $item->type === 'topup';
+                                $color = $isTopup ? 'var(--profit-green)' : 'var(--loss-red)';
+                            @endphp
+
+                            <tr>
+                                <td>{{ $item->created_at->format('d-m-Y H:i') }}</td>
+
+                                <td>
+                                    <span style="color: {{ $color }}">
+                                        <i
+                                            class="bi {{ $isTopup ? 'bi-arrow-down-circle' : 'bi-arrow-up-circle' }} me-1"></i>
+                                        {{ ucfirst($item->type) }}
+                                    </span>
+                                </td>
+
+                                <td style="color: {{ $color }}">
+                                    {{ $isTopup ? '+' : '-' }}Rp {{ number_format($item->nominal, 0, ',', '.') }}
+                                </td>
+
+                                <td>{{ ucwords($item->metode_pembayaran) }}</td>
+
+                                <td>
+                                    <span class="status-badge {{ $item->status == 1 ? 'success' : 'warning' }}">
+                                        {{ $item->status == 1 ? 'Terverifikasi' : 'Belum Terverifikasi' }}
+                                    </span>
+                                </td>
+                            </tr>
+                        @endforeach
                     </tbody>
                 </table>
             </div>
         </div>
     </main>
+    <!-- Topup Modal -->
+    <div class="modal fade" id="topupModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"><i class="bi bi-plus-circle me-2"></i>Topup Saldo</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div id="topupForm">
+                        <div class="form-group">
+                            <label class="form-label">Nominal Topup</label>
+                            <div class="input-group">
+                                <span class="input-icon" style="left: 15px;">Rp</span>
+                                <input type="number" class="form-control" id="topupAmount" placeholder="Masukkan nominal"
+                                    min="10000" max="5000000" style="padding-left: 50px;">
+                            </div>
+                            <small style="color: var(--text-muted);">Min: Rp 10.000 | Max: Rp 5.000.000</small>
+                        </div>
+                        <div class="d-flex gap-2 flex-wrap mt-3 mb-4">
+                            <button type="button" class="btn btn-sm"
+                                style="background: var(--bg-tertiary); color: var(--text-secondary); border: 1px solid var(--border-color);"
+                                onclick="setAmount(50000)">Rp 50.000</button>
+                            <button type="button" class="btn btn-sm"
+                                style="background: var(--bg-tertiary); color: var(--text-secondary); border: 1px solid var(--border-color);"
+                                onclick="setAmount(100000)">Rp 100.000</button>
+                            <button type="button" class="btn btn-sm"
+                                style="background: var(--bg-tertiary); color: var(--text-secondary); border: 1px solid var(--border-color);"
+                                onclick="setAmount(500000)">Rp 500.000</button>
+                            <button type="button" class="btn btn-sm"
+                                style="background: var(--bg-tertiary); color: var(--text-secondary); border: 1px solid var(--border-color);"
+                                onclick="setAmount(1000000)">Rp 1.000.000</button>
+                        </div>
+                        <button type="button" class="btn-gold w-100" onclick="processTopup()">
+                            <i class="bi bi-qr-code me-2"></i>Lanjut ke Pembayaran
+                        </button>
+                    </div>
+
+                    <div id="qrisSection" style="display: none;">
+                        <div class="qris-section">
+                            <div class="mb-3">
+                                <small style="color: var(--text-muted);">Total Pembayaran</small>
+                                <div class="qris-amount" id="qrisAmount">Rp 500.123</div>
+                                <div class="qris-unique">
+                                    <i class="bi bi-info-circle me-1"></i>
+                                    Kode Unik: <span id="uniqueCode">123</span>
+                                </div>
+                            </div>
+
+                            <div class="qris-code">
+                                <img src="{{ asset('template/qris.jpeg') }}" alt="QRIS Code" style="width: 100%;">
+                            </div>
+
+                            <div class="qris-status pending" id="qrisStatus">
+                                <div class="spinner-border spinner-border-sm me-2" role="status"></div>
+                                Menunggu Pembayaran...
+                            </div>
+
+                            <p style="color: var(--text-muted); font-size: 0.9rem; margin-top: 15px;">
+                                Scan QRIS di atas menggunakan aplikasi e-wallet atau mobile banking Anda.
+                            </p>
+
+                            <div class="mt-3 p-3" style="background: var(--bg-primary); border-radius: 10px;">
+                                <small style="color: var(--loss-red);"><i
+                                        class="bi bi-exclamation-triangle me-1"></i>Penting!</small>
+                                <p style="color: var(--text-secondary); font-size: 0.85rem; margin: 5px 0 0;">
+                                    Pastikan nominal transfer <strong style="color: var(--gold);">sama persis</strong>
+                                    termasuk 3 digit kode unik untuk verifikasi otomatis.
+                                </p>
+                            </div>
+                        </div>
+
+                        {{-- <button type="button" class="btn-silver w-100 mt-3" onclick="resetTopup()">
+                            <i class="bi bi-arrow-left me-2"></i>Kembali
+                        </button> --}}
+                        <button type="button" class="btn-silver w-100 mt-3" onclick="confirmTopup()">
+                            <i class="bi bi-arrow-left me-2"></i>Konfirmasi
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Withdraw Modal -->
+    <div class="modal fade" id="withdrawModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"><i class="bi bi-cash-coin me-2"></i>Tarik Saldo</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-4 p-3" style="background: var(--bg-tertiary); border-radius: 12px;">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <span style="color: var(--text-muted);">Saldo Tersedia</span>
+                            <span style="color: var(--gold); font-family: 'Orbitron', sans-serif; font-size: 1.3rem;">Rp
+                                {{ number_format($saldo, 0) }}</span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Nominal Penarikan</label>
+                        <div class="input-group">
+                            <span class="input-icon" style="left: 15px;">Rp</span>
+                            <input type="number" class="form-control" id="withdrawAmount"
+                                placeholder="Masukkan nominal" min="50000" style="padding-left: 50px;">
+                        </div>
+                        <small style="color: var(--text-muted);">Min: Rp 50.000</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Bank Tujuan</label>
+                        <select class="form-control">
+                            <option value="">Pilih Bank</option>
+                            <option value="{{ Auth::guard('member')->user()->nama_bank }}">
+                                {{ Auth::guard('member')->user()->nama_bank }} - 1234567890 (Abdul Rahman)
+                            </option>
+                            {{-- <option value="bni">BNI - 0987654321 (Abdul Rahman)</option> --}}
+                        </select>
+                        <small style="color: var(--text-muted);">
+                            <a href="profile.html" class="auth-link">+ Tambah rekening baru</a>
+                        </small>
+                    </div>
+
+                    <button type="button" class="btn-gold w-100" onclick="processWithdraw()">
+                        <i class="bi bi-send me-2"></i>Ajukan Penarikan
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection
+@push('script')
+    <script>
+        function confirmTopup() {
+            let amount = document.getElementById('qrisAmount').textContent;
+            fetch('/member/topup-saldo', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': document
+                            .querySelector('meta[name="csrf-token"]')
+                            .getAttribute('content')
+                    },
+                    body: JSON.stringify({
+                        amount: amount
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data);
+                    alert(data.message);
+                    location.reload();
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+        }
+
+        function setAmount(amount) {
+            document.getElementById('topupAmount').value = amount;
+        }
+
+        function processTopup() {
+            const amount = parseInt(document.getElementById('topupAmount').value);
+
+            if (!amount || amount < 10000 || amount > 5000000) {
+                alert('Nominal harus antara Rp 10.000 - Rp 5.000.000');
+                return;
+            }
+
+            // Generate unique 3 digit code
+            const uniqueCode = Math.floor(Math.random() * 900) + 100;
+            const totalAmount = amount + uniqueCode;
+
+            document.getElementById('uniqueCode').textContent = uniqueCode;
+            document.getElementById('qrisAmount').textContent = 'Rp ' + totalAmount.toLocaleString('id-ID');
+
+            document.getElementById('topupForm').style.display = 'none';
+            document.getElementById('qrisSection').style.display = 'block';
+        }
+
+        function resetTopup() {
+            document.getElementById('topupForm').style.display = 'block';
+            document.getElementById('qrisSection').style.display = 'none';
+            document.getElementById('topupAmount').value = '';
+        }
+
+        function processWithdraw() {
+            const amount = parseInt(document.getElementById('withdrawAmount').value);
+
+            if (!amount || amount < 50000) {
+                alert('Nominal minimal penarikan Rp 50.000');
+                return;
+            }
+
+            if (amount > 2500000) {
+                alert('Saldo tidak mencukupi');
+                return;
+            }
+
+            alert('Permintaan penarikan berhasil diajukan!\nProses 1x24 jam hari kerja.');
+            bootstrap.Modal.getInstance(document.getElementById('withdrawModal')).hide();
+        }
+    </script>
+@endpush

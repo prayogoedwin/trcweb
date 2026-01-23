@@ -90,7 +90,7 @@
                         <div class="input-group">
                             <i class="bi bi-gift input-icon"></i>
                             <input type="text" class="form-control" id="referral"
-                                placeholder="Masukkan kode referral">
+                                placeholder="Masukkan kode referral" name="referal">
                         </div>
                     </div>
 
@@ -111,13 +111,13 @@
                     </div>
 
                     <p class="text-center" style="color: var(--text-secondary);">
-                        Sudah punya akun? <a href="login.html" class="auth-link">Login disini</a>
+                        Sudah punya akun? <a href="{{ route('member.login') }}" class="auth-link">Login disini</a>
                     </p>
                 </form>
             </div>
 
             <p class="text-center mt-4" style="color: var(--text-muted); font-size: 0.9rem;">
-                <a href="index.html" style="color: var(--text-muted); text-decoration: none;">
+                <a href="{{ route('home') }}" style="color: var(--text-muted); text-decoration: none;">
                     <i class="bi bi-arrow-left me-1"></i>Kembali ke Beranda
                 </a>
             </p>
