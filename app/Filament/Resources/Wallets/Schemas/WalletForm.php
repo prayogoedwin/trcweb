@@ -29,6 +29,9 @@ class WalletForm
                         '1' => 'Terverifikasi',
                     ]),
                 TextInput::make('metode_pembayaran'),
+                // show input if type is withdraw
+                TextInput::make('rekening_tujuan')
+                    ->hidden(fn($get) => $get('type') !== 'withdraw'),
             ]);
     }
 }

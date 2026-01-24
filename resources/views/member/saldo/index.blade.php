@@ -12,7 +12,7 @@
                 <div class="user-profile" style="display: flex; align-items: center; gap: 10px;">
                     <div class="user-avatar">AR</div>
                     <div class="user-info d-none d-sm-block">
-                        <div class="user-name">Abdul Rahman</div>
+                        <div class="user-name">{{ ucfirst(Auth::guard('member')->user()->name) }}</div>
                         <div class="user-role">Member</div>
                     </div>
                 </div>
@@ -233,16 +233,19 @@
 
                     <div class="form-group">
                         <label class="form-label">Bank Tujuan</label>
-                        <select class="form-control">
+                        <select class="form-control" id="bank_id" name="bank_id">
                             <option value="">Pilih Bank</option>
-                            <option value="{{ Auth::guard('member')->user()->nama_bank }}">
-                                {{ Auth::guard('member')->user()->nama_bank }} - 1234567890 (Abdul Rahman)
-                            </option>
+                            @foreach ($bank as $item)
+                                <option value="{{ $item->id }}">
+                                    {{ ucwords($item->nama_bank) }} - {{ $item->no_rekening }}
+                                    ({{ ucfirst($item->atas_nama) }})
+                                </option>
+                            @endforeach
                             {{-- <option value="bni">BNI - 0987654321 (Abdul Rahman)</option> --}}
                         </select>
-                        <small style="color: var(--text-muted);">
-                            <a href="profile.html" class="auth-link">+ Tambah rekening baru</a>
-                        </small>
+                        {{-- <small style="color: var(--text-muted);">
+                            <a href="{{ route('member.profile') }}" class="auth-link">+ Tambah rekening baru</a>
+                        </small> --}}
                     </div>
 
                     <button type="button" class="btn-gold w-100" onclick="processWithdraw()">
@@ -311,7 +314,7 @@
 
         function processWithdraw() {
             const amount = parseInt(document.getElementById('withdrawAmount').value);
-
+            let bankId = $('#bank_id').val();
             if (!amount || amount < 50000) {
                 alert('Nominal minimal penarikan Rp 50.000');
                 return;
@@ -322,8 +325,29 @@
                 return;
             }
 
-            alert('Permintaan penarikan berhasil diajukan!\nProses 1x24 jam hari kerja.');
-            bootstrap.Modal.getInstance(document.getElementById('withdrawModal')).hide();
+            $.ajax({
+                type: "post",
+                url: "{{ route('member.withdraw-saldo') }}",
+                headers: {
+                    'X-CSRF-TOKEN': document
+                        .querySelector('meta[name="csrf-token"]')
+                        .getAttribute('content')
+                },
+                data: {
+                    amount: amount,
+                    bank_id: bankId
+                },
+                dataType: "json",
+                success: function(response) {
+                    if (response.success) {
+                        alert('Permintaan penarikan berhasil diajukan!\nProses 1x24 jam hari kerja.');
+                        bootstrap.Modal.getInstance(document.getElementById('withdrawModal')).hide();
+                        location.reload();
+                    } else {
+                        alert(response.message);
+                    }
+                }
+            });
         }
     </script>
 @endpush
