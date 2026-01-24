@@ -12,7 +12,7 @@
                 <div class="user-profile" style="display: flex; align-items: center; gap: 10px;">
                     <div class="user-avatar">AR</div>
                     <div class="user-info d-none d-sm-block">
-                        <div class="user-name">Abdul Rahman</div>
+                        <div class="user-name">{{ ucfirst(Auth::guard('member')->user()->name) }}</div>
                         <div class="user-role">Member</div>
                     </div>
                 </div>
@@ -26,10 +26,11 @@
                     style="background: linear-gradient(135deg, rgba(0, 210, 106, 0.15) 0%, var(--bg-card) 100%);">
                     <div class="stat-card-header">
                         <div class="stat-card-icon green"><i class="bi bi-graph-up-arrow"></i></div>
-                        <span class="stat-card-badge up"><i class="bi bi-arrow-up"></i> +12.5%</span>
+                        {{-- <span class="stat-card-badge up"><i class="bi bi-arrow-up"></i> +12.5%</span> --}}
                     </div>
                     <div class="stat-card-label">Total Profit</div>
-                    <div class="stat-card-value green" style="font-size: 2.2rem;">Rp 750.000</div>
+                    <div class="stat-card-value green" style="font-size: 2.2rem;">Rp. {{ number_format($totalProfit, 0) }}
+                    </div>
                     <button class="btn-green mt-3" data-bs-toggle="modal" data-bs-target="#withdrawProfitModal">
                         <i class="bi bi-cash-coin me-1"></i>Tarik Profit
                     </button>
@@ -42,7 +43,7 @@
                         <div class="stat-card-icon gold"><i class="bi bi-calendar-week"></i></div>
                     </div>
                     <div class="stat-card-label">Profit Minggu Ini</div>
-                    <div class="stat-card-value gold" style="font-size: 2rem;">Rp 125.000</div>
+                    <div class="stat-card-value gold" style="font-size: 2rem;">Rp {{ number_format($week, 0) }}</div>
                     <p style="color: var(--text-muted); font-size: 0.85rem; margin-top: 10px;">
                         <i class="bi bi-clock me-1"></i>Update terakhir: 17 Jan 2024
                     </p>
@@ -55,7 +56,7 @@
                         <div class="stat-card-icon silver"><i class="bi bi-cash-stack"></i></div>
                     </div>
                     <div class="stat-card-label">Modal Aktif</div>
-                    <div class="stat-card-value" style="font-size: 2rem;">Rp 1.000.000</div>
+                    <div class="stat-card-value" style="font-size: 2rem;">Rp {{ number_format($active, 0) }}</div>
                     <p style="color: var(--text-muted); font-size: 0.85rem; margin-top: 10px;">
                         <i class="bi bi-percent me-1"></i>ROI: 75%
                     </p>
@@ -160,38 +161,16 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>Minggu ke-3 Jan 2024</td>
-                            <td><span style="color: var(--profit-green);"><i
-                                        class="bi bi-plus-circle me-1"></i>Profit</span></td>
-                            <td style="color: var(--profit-green);">+Rp 125.000</td>
-                            <td>Rp 1.000.000</td>
-                            <td><span class="stat-card-badge up">+12.5%</span></td>
-                        </tr>
-                        <tr>
-                            <td>Minggu ke-2 Jan 2024</td>
-                            <td><span style="color: var(--profit-green);"><i
-                                        class="bi bi-plus-circle me-1"></i>Profit</span></td>
-                            <td style="color: var(--profit-green);">+Rp 150.000</td>
-                            <td>Rp 1.000.000</td>
-                            <td><span class="stat-card-badge up">+15%</span></td>
-                        </tr>
-                        <tr>
-                            <td>Minggu ke-1 Jan 2024</td>
-                            <td><span style="color: var(--profit-green);"><i
-                                        class="bi bi-plus-circle me-1"></i>Profit</span></td>
-                            <td style="color: var(--profit-green);">+Rp 175.000</td>
-                            <td>Rp 1.000.000</td>
-                            <td><span class="stat-card-badge up">+17.5%</span></td>
-                        </tr>
-                        <tr>
-                            <td>Minggu ke-4 Des 2023</td>
-                            <td><span style="color: var(--profit-green);"><i
-                                        class="bi bi-plus-circle me-1"></i>Profit</span></td>
-                            <td style="color: var(--profit-green);">+Rp 100.000</td>
-                            <td>Rp 800.000</td>
-                            <td><span class="stat-card-badge up">+12.5%</span></td>
-                        </tr>
+                        @foreach ($rows as $item)
+                            <tr>
+                                <td>{{ $item['label'] }}</td>
+                                <td><span style="color: var(--profit-green);"><i
+                                            class="bi bi-plus-circle me-1"></i>Profit</span></td>
+                                <td style="color: var(--profit-green);">+Rp {{ number_format($item['profit'], 0) }}</td>
+                                <td>Rp {{ number_format($item['modal'], 0) }}</td>
+                                <td><span class="stat-card-badge up">+{{ $item['roi'] }}%</span></td>
+                            </tr>
+                        @endforeach
                     </tbody>
                 </table>
             </div>

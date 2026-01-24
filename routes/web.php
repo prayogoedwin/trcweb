@@ -96,6 +96,9 @@ Route::prefix('member')->group(function () {
         Route::post('withdraw-saldo', [SaldoController::class, 'withdrawSaldo'])->name('member.withdraw-saldo');
 
         Route::get('modal', [ModalController::class, 'index'])->name('member.modal');
+        Route::post('topup-modal', [ModalController::class, 'store'])->name('member.topup-modal');
+        Route::post('cancel-modal/{trade}', [ModalController::class, 'cancelModal'])->name('member.cancel-modal');
+
         Route::get('profit', [ProfitController::class, 'index'])->name('member.profit');
         Route::get('riwayat-saldo', [RiwayatController::class, 'index'])->name('member.riwayat-saldo');
         Route::get('riwayat-modal', [RiwayatController::class, 'riwayatModal'])->name('member.riwayat-modal');

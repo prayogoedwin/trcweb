@@ -12,7 +12,7 @@
                 <div class="user-profile" style="display: flex; align-items: center; gap: 10px;">
                     <div class="user-avatar">AR</div>
                     <div class="user-info d-none d-sm-block">
-                        <div class="user-name">Abdul Rahman</div>
+                        <div class="user-name">{{ ucfirst(Auth::guard('member')->user()->name) }}</div>
                         <div class="user-role">Member</div>
                     </div>
                 </div>
@@ -63,63 +63,26 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td><code style="color: var(--gold);">#MDL001</code></td>
-                            <td>15 Jan 2024</td>
-                            <td style="color: var(--gold);">Rp 500.000</td>
-                            <td>Minggu ke-3 Jan 2024</td>
-                            <td style="color: var(--profit-green);">+Rp 62.500</td>
-                            <td><span class="status-badge success"><i class="bi bi-play-circle me-1"></i>Aktif</span></td>
-                        </tr>
-                        <tr>
-                            <td><code style="color: var(--gold);">#MDL002</code></td>
-                            <td>10 Jan 2024</td>
-                            <td style="color: var(--gold);">Rp 500.000</td>
-                            <td>Minggu ke-2 Jan 2024</td>
-                            <td style="color: var(--profit-green);">+Rp 75.000</td>
-                            <td><span class="status-badge success"><i class="bi bi-play-circle me-1"></i>Aktif</span></td>
-                        </tr>
-                        <tr>
-                            <td><code style="color: var(--gold);">#MDL003</code></td>
-                            <td>05 Jan 2024</td>
-                            <td style="color: var(--silver);">Rp 300.000</td>
-                            <td>Minggu ke-1 Jan 2024</td>
-                            <td style="color: var(--profit-green);">+Rp 45.000</td>
-                            <td><span class="status-badge"
-                                    style="background: rgba(192, 192, 192, 0.15); color: var(--silver);"><i
-                                        class="bi bi-check-circle me-1"></i>Selesai</span></td>
-                        </tr>
-                        <tr>
-                            <td><code style="color: var(--gold);">#MDL004</code></td>
-                            <td>28 Des 2023</td>
-                            <td style="color: var(--silver);">Rp 400.000</td>
-                            <td>Minggu ke-4 Des 2023</td>
-                            <td style="color: var(--profit-green);">+Rp 52.000</td>
-                            <td><span class="status-badge"
-                                    style="background: rgba(192, 192, 192, 0.15); color: var(--silver);"><i
-                                        class="bi bi-check-circle me-1"></i>Selesai</span></td>
-                        </tr>
-                        <tr>
-                            <td><code style="color: var(--gold);">#MDL005</code></td>
-                            <td>20 Des 2023</td>
-                            <td style="color: var(--silver);">Rp 250.000</td>
-                            <td>Minggu ke-3 Des 2023</td>
-                            <td style="color: var(--profit-green);">+Rp 37.500</td>
-                            <td><span class="status-badge"
-                                    style="background: rgba(192, 192, 192, 0.15); color: var(--silver);"><i
-                                        class="bi bi-check-circle me-1"></i>Selesai</span></td>
-                        </tr>
-                        <tr>
-                            <td><code style="color: var(--gold);">#MDL006</code></td>
-                            <td>12 Des 2023</td>
-                            <td style="color: var(--silver);">Rp 200.000</td>
-                            <td>Minggu ke-2 Des 2023</td>
-                            <td style="color: var(--profit-green);">+Rp 28.000</td>
-                            <td><span class="status-badge"
-                                    style="background: rgba(192, 192, 192, 0.15); color: var(--silver);"><i
-                                        class="bi bi-check-circle me-1"></i>Selesai</span></td>
-                        </tr>
-                        <tr>
+                        @foreach ($rows as $item)
+                            <tr>
+                                <td><code style="color: var(--gold);">{{ $item['id'] }}</code></td>
+                                <td>{{ $item['tanggal_masuk'] }}</td>
+                                <td style="color: var(--gold);">Rp {{ number_format($item['modal'], 0) }}</td>
+                                <td>{{ $item['periode_label'] }}</td>
+                                <td style="color: var(--profit-green);">+Rp {{ number_format($item['profit'], 0) }}
+                                </td>
+                                <td>
+                                    @if ($item['status'] === 'active')
+                                        <span class="status-badge success">Aktif</span>
+                                    @elseif ($item['status'] === 'cancelled')
+                                        <span class="status-badge danger">Dibatalkan</span>
+                                    @else
+                                        <span class="status-badge info">Selesai</span>
+                                    @endif
+                                </td>
+                            </tr>
+                        @endforeach
+                        {{-- <tr>
                             <td><code style="color: var(--gold);">#MDL007</code></td>
                             <td>05 Des 2023</td>
                             <td style="color: var(--silver);">Rp 150.000</td>
@@ -128,7 +91,7 @@
                             <td><span class="status-badge"
                                     style="background: rgba(192, 192, 192, 0.15); color: var(--silver);"><i
                                         class="bi bi-check-circle me-1"></i>Selesai</span></td>
-                        </tr>
+                        </tr> --}}
                     </tbody>
                 </table>
             </div>

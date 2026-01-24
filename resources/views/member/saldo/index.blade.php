@@ -87,7 +87,7 @@
                     <tbody>
                         @foreach ($riwayat as $item)
                             @php
-                                $isTopup = $item->type === 'topup';
+                                $isTopup = $item->type === 'topup' || $item->type === 'profit';
                                 $color = $isTopup ? 'var(--profit-green)' : 'var(--loss-red)';
                             @endphp
 

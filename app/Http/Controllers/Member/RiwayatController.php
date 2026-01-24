@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Member;
 
 use App\Http\Controllers\Controller;
 use App\Models\Wallet;
+use App\Services\TradeService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -29,7 +30,8 @@ class RiwayatController extends Controller
 
     public function riwayatModal()
     {
-        return view('member.riwayat.modal');
+        $rows = TradeService::listByUser(Auth::guard('member')->user()->id);
+        return view('member.riwayat.modal', compact('rows'));
     }
 
     public function riwayatProfit()

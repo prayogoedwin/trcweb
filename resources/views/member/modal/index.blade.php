@@ -29,7 +29,8 @@
                         <span class="stat-card-badge pending"><i class="bi bi-lock"></i> Terkunci</span>
                     </div>
                     <div class="stat-card-label">Modal Trading Aktif</div>
-                    <div class="stat-card-value" style="font-size: 2.5rem;">Rp 1.000.000</div>
+                    <div class="stat-card-value" style="font-size: 2.5rem;">Rp
+                        {{ number_format($tradeAktif, 0) }}</div>
                     <p style="color: var(--text-muted); font-size: 0.9rem; margin-top: 10px;">
                         <i class="bi bi-info-circle me-1"></i>Modal tidak dapat ditarik selama periode trading berlangsung.
                     </p>
@@ -42,7 +43,7 @@
                         <div class="stat-card-icon gold"><i class="bi bi-wallet2"></i></div>
                     </div>
                     <div class="stat-card-label">Saldo Tersedia untuk Trading</div>
-                    <div class="stat-card-value gold" style="font-size: 2rem;">Rp 2.500.000</div>
+                    <div class="stat-card-value gold" style="font-size: 2rem;">Rp {{ number_format($saldo, 0) }}</div>
                     <button class="btn-gold mt-3" data-bs-toggle="modal" data-bs-target="#tradeModal">
                         <i class="bi bi-graph-up me-2"></i>Masukkan Modal Baru
                     </button>
@@ -118,33 +119,49 @@
                         <tr>
                             <th>Tanggal</th>
                             <th>Nominal Modal</th>
-                            <th>Periode</th>
+                            {{-- <th>Periode</th> --}}
                             <th>Status</th>
+                            <th>Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>15 Jan 2024</td>
-                            <td style="color: var(--gold);">Rp 500.000</td>
-                            <td>Minggu ke-3</td>
-                            <td><span class="status-badge success"><i class="bi bi-play-circle me-1"></i>Aktif
-                                    Trading</span></td>
-                        </tr>
-                        <tr>
-                            <td>10 Jan 2024</td>
-                            <td style="color: var(--gold);">Rp 500.000</td>
-                            <td>Minggu ke-2</td>
-                            <td><span class="status-badge success"><i class="bi bi-play-circle me-1"></i>Aktif
-                                    Trading</span></td>
-                        </tr>
-                        <tr>
-                            <td>05 Jan 2024</td>
-                            <td style="color: var(--silver);">Rp 300.000</td>
-                            <td>Minggu ke-1</td>
-                            <td><span class="status-badge"
-                                    style="background: rgba(192, 192, 192, 0.15); color: var(--silver);"><i
-                                        class="bi bi-check-circle me-1"></i>Selesai</span></td>
-                        </tr>
+                        @foreach ($riwayat as $item)
+                            <tr>
+                                <td>{{ $item->created_at->format('d-m-Y') }}</td>
+                                <td style="color: var(--gold);">Rp {{ number_format($item->modal, 0) }}</td>
+                                {{-- <td>Minggu ke-3</td> --}}
+                                <td>
+                                    @if ($item->status === 'active')
+                                        <span class="status-badge success">
+                                            <i class="bi bi-play-circle me-1"></i>
+                                            Aktif Trading
+                                        </span>
+                                    @elseif ($item->status === 'cancelled')
+                                        <span class="status-badge danger">
+                                            <i class="bi bi-x-circle me-1"></i>
+                                            Trading Dibatalkan
+                                        </span>
+                                    @elseif ($item->status === 'completed')
+                                        <span class="status-badge info">
+                                            <i class="bi bi-check-circle me-1"></i>
+                                            Trading Selesai
+                                        </span>
+                                    @else
+                                        <span class="status-badge secondary">
+                                            <i class="bi bi-question-circle me-1"></i>
+                                            Status Tidak Diketahui
+                                        </span>
+                                    @endif
+                                </td>
+                                <td>
+                                    <button class="status-badge info btn-cancel-trade" data-id="{{ $item->id }}"
+                                        style="border: none; background: transparent;">
+                                        <i class="bi bi-x-circle me-1"></i>
+                                        Batalkan Trading
+                                    </button>
+                                </td>
+                            </tr>
+                        @endforeach
                     </tbody>
                 </table>
             </div>
@@ -163,8 +180,8 @@
                     <div class="mb-4 p-3" style="background: var(--bg-tertiary); border-radius: 12px;">
                         <div class="d-flex justify-content-between align-items-center">
                             <span style="color: var(--text-muted);">Saldo Tersedia</span>
-                            <span style="color: var(--gold); font-family: 'Orbitron', sans-serif; font-size: 1.3rem;">Rp
-                                2.500.000</span>
+                            <span style="color: var(--gold); font-family: 'Orbitron', sans-serif; font-size: 1.3rem;">Rp.
+                                {{ number_format($saldo, 0) }}</span>
                         </div>
                     </div>
 
@@ -219,24 +236,98 @@
         }
 
         function processTrade() {
-            const amount = parseInt(document.getElementById('modalAmount').value);
+            const amount = parseInt($('#modalAmount').val());
 
-            if (!amount || amount < 10000 || amount > 5000000) {
-                alert('Nominal modal harus antara Rp 10.000 - Rp 5.000.000');
+            if (isNaN(amount) || amount < 10000) {
+                alert('Nominal minimal Rp 10.000');
                 return;
             }
 
-            if (amount > 2500000) {
-                alert('Saldo tidak mencukupi');
+            if (!confirm(
+                    'Anda yakin ingin memasukkan modal sebesar Rp ' +
+                    amount.toLocaleString('id-ID') +
+                    '?\n\nModal tidak dapat ditarik selama periode trading.'
+                )) {
                 return;
             }
 
-            if (confirm('Anda yakin ingin memasukkan modal sebesar Rp ' + amount.toLocaleString('id-ID') +
-                    '?\n\nModal tidak dapat ditarik selama periode trading.')) {
-                alert('Modal berhasil dimasukkan!\nTrading akan dimulai pada periode berikutnya.');
-                bootstrap.Modal.getInstance(document.getElementById('tradeModal')).hide();
-                location.reload();
-            }
+            $.ajax({
+                url: "{{ route('member.topup-modal') }}",
+                type: "POST",
+                dataType: "json",
+                data: {
+                    modal: amount
+                },
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                beforeSend: function() {
+                    // optional: disable button
+                },
+                success: function(res) {
+                    if (res.success) {
+                        alert(res.message);
+
+                        const modalEl = document.getElementById('tradeModal');
+                        const modalInstance = bootstrap.Modal.getInstance(modalEl);
+                        modalInstance.hide();
+
+                        location.reload();
+                    } else {
+                        alert(res.message);
+                    }
+                },
+                error: function(xhr) {
+                    console.error(xhr.responseText);
+
+                    if (xhr.status === 401) {
+                        alert('Silakan login ulang');
+                        location.href = '/login';
+                    } else if (xhr.status === 419) {
+                        alert('Session habis, refresh halaman');
+                        location.reload();
+                    } else {
+                        alert('Terjadi kesalahan sistem');
+                    }
+                }
+            });
         }
+
+        $(document).on('click', '.btn-cancel-trade', function() {
+
+            const tradeId = $(this).data('id');
+
+            if (!confirm('Yakin ingin membatalkan trade ini?\n\n30% modal akan dipotong.')) {
+                return;
+            }
+
+            $.ajax({
+                url: '/member/cancel-modal/' + tradeId,
+                type: 'POST',
+                dataType: 'json',
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                success: function(res) {
+                    if (res.success) {
+                        alert(res.message);
+                        location.reload();
+                    } else {
+                        alert(res.message);
+                    }
+                },
+                error: function(xhr) {
+                    console.error(xhr.responseText);
+
+                    if (xhr.status === 403) {
+                        alert('Tidak diizinkan');
+                    } else if (xhr.status === 404) {
+                        alert('Trade tidak ditemukan');
+                    } else {
+                        alert('Terjadi kesalahan sistem');
+                    }
+                }
+            });
+        });
     </script>
 @endpush

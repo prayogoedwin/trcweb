@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Bank;
 use App\Models\User;
 use App\Models\Wallet;
+use App\Services\SaldoService;
 use Filament\Actions\Action;
 use Filament\Notifications\Notification;
 use Illuminate\Http\Request;
@@ -42,7 +43,7 @@ class SaldoController extends Controller
     {
         $memberId = Auth::guard('member')->user()->id;
         $bank = Bank::where('member_id', $memberId)->get();
-        $saldo = $this->cekSaldo();
+        $saldo = SaldoService::getSaldo(Auth::guard('member')->user());
         $riwayat = Wallet::where('member_id', $memberId)->orderBy('created_at', 'desc')->limit(5)->get();
         return view('member.saldo.index', compact('saldo', 'riwayat', 'bank'));
     }
