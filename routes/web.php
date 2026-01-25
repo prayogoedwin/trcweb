@@ -62,8 +62,6 @@ Route::get('/maintenance', function () {
 
 // Login Member
 Route::prefix('member')->group(function () {
-
-
     Route::get('/login/{provider}', [SocialLoginController::class, 'redirectToProvider'])->name('member.social.login');
 
     Route::get('/login/{provider}/callback', [SocialLoginController::class, 'handleProviderCallback'])->name('member.social.login.callback');
