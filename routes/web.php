@@ -21,13 +21,27 @@ use App\Http\Controllers\Member\ProfitController;
 use App\Http\Controllers\Member\RiwayatController;
 use App\Http\Controllers\Member\SaldoController;
 use App\Middleware\CheckMaintenanceMode;
-
-
-
+use App\Models\User;
+use Filament\Actions\Action;
+use Filament\Notifications\Notification;
 
 // Route::get('/', function () {
 //     return view('welcome');
 // });
+
+Route::get('test', function () {
+    $recipient = User::where('email', 'superadmin@filament.com')->first();
+
+    Notification::make()
+        ->title('Topup Saldo')
+        ->body('Topup sebesar 20000')
+        ->actions([
+            Action::make('edit')
+                ->label('Lihat Detail')
+                ->markAsRead(),
+        ])
+        ->sendToDatabase($recipient);
+});
 
 Route::middleware(CheckMaintenanceMode::class)->group(function () {
 
