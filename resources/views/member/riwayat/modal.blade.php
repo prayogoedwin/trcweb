@@ -25,23 +25,23 @@
                 <div class="stat-card">
                     <div class="stat-card-icon silver"><i class="bi bi-cash-stack"></i></div>
                     <div class="stat-card-label">Total Modal Dimasukkan</div>
-                    <div class="stat-card-value">Rp 2.300.000</div>
+                    <div class="stat-card-value">Rp {{ number_format($totalModal, 0) }}</div>
                 </div>
             </div>
             <div class="col-md-4">
                 <div class="stat-card">
                     <div class="stat-card-icon gold"><i class="bi bi-play-circle"></i></div>
                     <div class="stat-card-label">Modal Aktif</div>
-                    <div class="stat-card-value gold">Rp 1.000.000</div>
+                    <div class="stat-card-value gold">Rp {{ number_format($tradeAktif, 0) }}</div>
                 </div>
             </div>
-            <div class="col-md-4">
+            {{-- <div class="col-md-4">
                 <div class="stat-card">
                     <div class="stat-card-icon green"><i class="bi bi-check-circle"></i></div>
                     <div class="stat-card-label">Modal Selesai</div>
                     <div class="stat-card-value green">Rp 1.300.000</div>
                 </div>
-            </div>
+            </div> --}}
         </div>
 
         <!-- History -->

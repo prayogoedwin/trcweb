@@ -155,7 +155,7 @@
                                 </td>
                                 <td>
                                     <button class="status-badge info btn-cancel-trade" data-id="{{ $item->id }}"
-                                        style="border: none; background: transparent;">
+                                        style="border: none; background: transparent; font-color: white;">
                                         <i class="bi bi-x-circle me-1"></i>
                                         Batalkan Trading
                                     </button>

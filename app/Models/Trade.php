@@ -7,4 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 class Trade extends Model
 {
     protected $guarded = ['id'];
+
+    public function member()
+    {
+        return $this->belongsTo(Member::class, 'member_id', 'id');
+    }
 }

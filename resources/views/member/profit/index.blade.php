@@ -31,9 +31,9 @@
                     <div class="stat-card-label">Total Profit</div>
                     <div class="stat-card-value green" style="font-size: 2.2rem;">Rp. {{ number_format($totalProfit, 0) }}
                     </div>
-                    <button class="btn-green mt-3" data-bs-toggle="modal" data-bs-target="#withdrawProfitModal">
+                    {{-- <button class="btn-green mt-3" data-bs-toggle="modal" data-bs-target="#withdrawProfitModal">
                         <i class="bi bi-cash-coin me-1"></i>Tarik Profit
-                    </button>
+                    </button> --}}
                 </div>
             </div>
 

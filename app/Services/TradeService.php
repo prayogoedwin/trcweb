@@ -75,7 +75,7 @@ class TradeService
             // potongan dicatat ke wallet
             Wallet::create([
                 'member_id' => $trade->member_id,
-                'type' => 'withdraw',
+                'type' => 'topup',
                 'nominal' => $fee,
                 'status' => 1,
                 'metode_pembayaran' => 'trade_cancel_fee',
@@ -215,6 +215,41 @@ class TradeService
                     'periode' => $trade->periode,
                     'profit' => $trade->total_profit,
                     'status' => $trade->status,
+                ];
+            });
+    }
+
+    public static function listProfitByUser(int $memberId)
+    {
+        return TradeProfit::query()
+            ->where('trade_profits.member_id', $memberId)
+            ->join('trades', 'trades.id', '=', 'trade_profits.trade_id')
+            // ->leftJoin('wallets', function ($join) {
+            //     $join->on('wallets.member_id', '=', 'trade_profits.member_id')
+            //         ->where('wallets.metode_pembayaran', 'trade_profit');
+            // })
+            ->select(
+                'trade_profits.id',
+                'trade_profits.profit_date',
+                'trade_profits.amount',
+                'trades.modal',
+                // DB::raw('wallets.status as wallet_status')
+            )
+            ->orderByDesc('trade_profits.profit_date')
+            ->get()
+            ->map(function ($row) {
+
+                $roi = $row->modal > 0
+                    ? round(($row->amount / $row->modal) * 100, 2)
+                    : 0;
+
+                return [
+                    'id' => $row->id,
+                    'tanggal' => Carbon::parse($row->profit_date)->format('d M Y'),
+                    'tipe' => 'Profit',
+                    'nominal' => $row->amount,
+                    'modal' => $row->modal,
+                    'roi' => $roi,
                 ];
             });
     }

@@ -16,15 +16,28 @@ use Illuminate\Support\Facades\Hash;
 
 use App\Models\ProdukStokVarian;
 use App\Models\Produk;
+use App\Models\TradeProfit;
+use App\Services\SaldoService;
+use App\Services\TradeService;
+use Carbon\Carbon;
 
 class DashboardMember extends Controller
 {
     public function index()
     {
         if (Auth::guard('member')->check()) {
-            return view('member.index');
+            $saldo = SaldoService::getSaldo(Auth::guard('member')->user());
+            $tradeAktif = TradeService::getTradeAktif(Auth::guard('member')->user());
+            $totalProfit = TradeProfit::where('member_id', Auth::guard('member')->user()->id)->sum('amount');
+            $week = TradeProfit::where('member_id', Auth::guard('member')->user()->id)->whereBetween(
+                'profit_date',
+                [
+                    Carbon::now()->startOfWeek(),
+                    Carbon::now()->endOfWeek(),
+                ]
+            )->sum('amount');
+            return view('member.index', compact('saldo', 'tradeAktif', 'totalProfit', 'week'));
         }
-
         return redirect()->route('member.login')->with('error', 'Silakan login terlebih dahulu.');
     }
 

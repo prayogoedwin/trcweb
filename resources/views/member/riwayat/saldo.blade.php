@@ -97,7 +97,7 @@
                     <tbody>
                         @foreach ($allTransaction as $transaction)
                             @php
-                                $isTopup = $transaction->type === 'topup';
+                                $isTopup = $transaction->type === 'topup' || $transaction->type === 'profit';
                                 $color = $isTopup ? 'var(--profit-green)' : 'var(--loss-red)';
                             @endphp
                             <tr>

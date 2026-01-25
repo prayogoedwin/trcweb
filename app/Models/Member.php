@@ -107,4 +107,9 @@ class Member extends Model implements Authenticatable
     {
         return $this->hasMany(Bank::class, 'member_id');
     }
+
+    public function trade()
+    {
+        return $this->hasMany(Trade::class, 'member_id');
+    }
 }

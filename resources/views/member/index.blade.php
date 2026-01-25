@@ -14,18 +14,18 @@
                     <div data-bs-toggle="dropdown" style="display: flex; align-items: center; gap: 10px; cursor: pointer;">
                         <div class="user-avatar">AR</div>
                         <div class="user-info d-none d-sm-block">
-                            <div class="user-name">Abdul Rahman</div>
+                            <div class="user-name">{{ ucfirst(Auth::guard('member')->user()->name) }}</div>
                             <div class="user-role">Member</div>
                         </div>
                     </div>
                     <ul class="dropdown-menu dropdown-menu-end"
                         style="background: var(--bg-card); border-color: var(--border-color);">
-                        <li><a class="dropdown-item" href="profile.html" style="color: var(--text-secondary);"><i
-                                    class="bi bi-person me-2"></i>Profil</a></li>
+                        <li><a class="dropdown-item" href="{{ route('member.profile') }}"
+                                style="color: var(--text-secondary);"><i class="bi bi-person me-2"></i>Profil</a></li>
                         <li>
                             <hr class="dropdown-divider" style="border-color: var(--border-color);">
                         </li>
-                        <li><a class="dropdown-item" href="index.html" style="color: var(--loss-red);"><i
+                        <li><a class="dropdown-item" href="{{ route('member.logout') }}" style="color: var(--loss-red);"><i
                                     class="bi bi-box-arrow-left me-2"></i>Logout</a></li>
                     </ul>
                 </div>
@@ -38,13 +38,13 @@
             <div class="d-flex align-items-center justify-content-between flex-wrap gap-3">
                 <div>
                     <h3 style="color: var(--gold); margin-bottom: 5px;"><i class="bi bi-stars me-2"></i>Selamat
-                        Datang, Abdul Rahman!</h3>
+                        Datang, {{ ucfirst(Auth::guard('member')->user()->name) }}!</h3>
                     <p style="color: var(--text-secondary); margin: 0;">Pantau trading dan profit Anda dari
                         dashboard ini.</p>
                 </div>
                 <div class="d-flex gap-2">
-                    <a href="saldo.html" class="btn-green"><i class="bi bi-plus-circle me-1"></i>Topup</a>
-                    <a href="modal.html" class="btn-gold" style="padding: 12px 20px;"><i
+                    <a href="{{ route('member.saldo') }}" class="btn-green"><i class="bi bi-plus-circle me-1"></i>Topup</a>
+                    <a href="{{ route('member.modal') }}" class="btn-gold" style="padding: 12px 20px;"><i
                             class="bi bi-graph-up me-1"></i>Trade</a>
                 </div>
             </div>
@@ -58,7 +58,7 @@
                     <span class="stat-card-badge up"><i class="bi bi-arrow-up"></i> Aktif</span>
                 </div>
                 <div class="stat-card-label">Saldo Akun</div>
-                <div class="stat-card-value gold">Rp 2.500.000</div>
+                <div class="stat-card-value gold">Rp {{ number_format($saldo, 0) }}</div>
             </div>
 
             <div class="stat-card">
@@ -67,7 +67,7 @@
                     <span class="stat-card-badge pending"><i class="bi bi-lock"></i> Terkunci</span>
                 </div>
                 <div class="stat-card-label">Modal Trading</div>
-                <div class="stat-card-value">Rp 1.000.000</div>
+                <div class="stat-card-value">Rp {{ number_format($tradeAktif, 0) }}</div>
             </div>
 
             <div class="stat-card">
@@ -76,7 +76,7 @@
                     <span class="stat-card-badge up"><i class="bi bi-arrow-up"></i> +12.5%</span>
                 </div>
                 <div class="stat-card-label">Total Profit</div>
-                <div class="stat-card-value green">Rp 750.000</div>
+                <div class="stat-card-value green">Rp {{ number_format($totalProfit, 0) }}</div>
             </div>
 
             <div class="stat-card">
@@ -84,7 +84,7 @@
                     <div class="stat-card-icon gold"><i class="bi bi-trophy"></i></div>
                 </div>
                 <div class="stat-card-label">Profit Minggu Ini</div>
-                <div class="stat-card-value gold">Rp 125.000</div>
+                <div class="stat-card-value gold">Rp {{ number_format($week, 0) }}</div>
             </div>
         </div>
 
@@ -92,26 +92,26 @@
         <h5 style="color: var(--text-secondary); margin-bottom: 20px;"><i class="bi bi-lightning-charge me-2"
                 style="color: var(--gold);"></i>Aksi Cepat</h5>
         <div class="quick-actions">
-            <a href="saldo.html" class="action-card">
+            <a href="{{ route('member.saldo') }}" class="action-card">
                 <div class="action-icon topup"><i class="bi bi-plus-circle"></i></div>
                 <div class="action-title">Topup Saldo</div>
                 <div class="action-desc">Isi saldo akun Anda</div>
             </a>
-            <a href="modal.html" class="action-card">
+            <a href="{{ route('member.modal') }}" class="action-card">
                 <div class="action-icon trade"><i class="bi bi-graph-up"></i></div>
                 <div class="action-title">Masukkan Modal</div>
                 <div class="action-desc">Mulai trading sekarang</div>
             </a>
-            <a href="saldo.html#withdraw" class="action-card">
+            <a href="{{ route('member.saldo') }}" class="action-card">
                 <div class="action-icon withdraw"><i class="bi bi-cash-coin"></i></div>
                 <div class="action-title">Tarik Saldo</div>
                 <div class="action-desc">Withdraw ke rekening</div>
             </a>
-            <a href="profit.html#withdraw" class="action-card">
+            {{-- <a href="profit.html#withdraw" class="action-card">
                 <div class="action-icon topup"><i class="bi bi-currency-dollar"></i></div>
                 <div class="action-title">Tarik Profit</div>
                 <div class="action-desc">Cairkan profit Anda</div>
-            </a>
+            </a> --}}
         </div>
 
         <!-- Recent Transactions -->

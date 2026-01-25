@@ -12,7 +12,7 @@
                 <div class="user-profile" style="display: flex; align-items: center; gap: 10px;">
                     <div class="user-avatar">AR</div>
                     <div class="user-info d-none d-sm-block">
-                        <div class="user-name">Abdul Rahman</div>
+                        <div class="user-name">{{ Auth::guard('member')->user()->name }}</div>
                         <div class="user-role">Member</div>
                     </div>
                 </div>
@@ -25,17 +25,17 @@
                 <div class="stat-card">
                     <div class="stat-card-icon green"><i class="bi bi-graph-up-arrow"></i></div>
                     <div class="stat-card-label">Total Profit</div>
-                    <div class="stat-card-value green">Rp 750.000</div>
+                    <div class="stat-card-value green">Rp {{ number_format($totalProfit, 0) }}</div>
                 </div>
             </div>
             <div class="col-md-3">
                 <div class="stat-card">
                     <div class="stat-card-icon gold"><i class="bi bi-calendar-week"></i></div>
                     <div class="stat-card-label">Profit Bulan Ini</div>
-                    <div class="stat-card-value gold">Rp 450.000</div>
+                    <div class="stat-card-value gold">Rp {{ number_format($month, 0) }}</div>
                 </div>
             </div>
-            <div class="col-md-3">
+            {{-- <div class="col-md-3">
                 <div class="stat-card">
                     <div class="stat-card-icon silver"><i class="bi bi-cash-coin"></i></div>
                     <div class="stat-card-label">Total Ditarik</div>
@@ -48,7 +48,7 @@
                     <div class="stat-card-label">Profit Tersedia</div>
                     <div class="stat-card-value green">Rp 450.000</div>
                 </div>
-            </div>
+            </div> --}}
         </div>
 
         <!-- Filter -->
@@ -98,90 +98,22 @@
                             <th>Nominal</th>
                             <th>Modal Terkait</th>
                             <th>ROI</th>
-                            <th>Status</th>
+                            {{-- <th>Status</th> --}}
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td><code style="color: var(--gold);">#PRF001</code></td>
-                            <td>17 Jan 2024</td>
-                            <td><span style="color: var(--profit-green);"><i
-                                        class="bi bi-plus-circle me-1"></i>Profit</span></td>
-                            <td style="color: var(--profit-green);">+Rp 125.000</td>
-                            <td>Rp 1.000.000</td>
-                            <td><span class="stat-card-badge up">+12.5%</span></td>
-                            <td><span class="status-badge success">Diterima</span></td>
-                        </tr>
-                        <tr>
-                            <td><code style="color: var(--gold);">#PRF002</code></td>
-                            <td>15 Jan 2024</td>
-                            <td><span style="color: var(--loss-red);"><i
-                                        class="bi bi-arrow-up-circle me-1"></i>Withdraw</span></td>
-                            <td style="color: var(--loss-red);">-Rp 100.000</td>
-                            <td>-</td>
-                            <td>-</td>
-                            <td><span class="status-badge success">Berhasil</span></td>
-                        </tr>
-                        <tr>
-                            <td><code style="color: var(--gold);">#PRF003</code></td>
-                            <td>10 Jan 2024</td>
-                            <td><span style="color: var(--profit-green);"><i
-                                        class="bi bi-plus-circle me-1"></i>Profit</span></td>
-                            <td style="color: var(--profit-green);">+Rp 150.000</td>
-                            <td>Rp 1.000.000</td>
-                            <td><span class="stat-card-badge up">+15%</span></td>
-                            <td><span class="status-badge success">Diterima</span></td>
-                        </tr>
-                        <tr>
-                            <td><code style="color: var(--gold);">#PRF004</code></td>
-                            <td>05 Jan 2024</td>
-                            <td><span style="color: var(--profit-green);"><i
-                                        class="bi bi-plus-circle me-1"></i>Profit</span></td>
-                            <td style="color: var(--profit-green);">+Rp 175.000</td>
-                            <td>Rp 1.000.000</td>
-                            <td><span class="stat-card-badge up">+17.5%</span></td>
-                            <td><span class="status-badge success">Diterima</span></td>
-                        </tr>
-                        <tr>
-                            <td><code style="color: var(--gold);">#PRF005</code></td>
-                            <td>28 Des 2023</td>
-                            <td><span style="color: var(--profit-green);"><i
-                                        class="bi bi-plus-circle me-1"></i>Profit</span></td>
-                            <td style="color: var(--profit-green);">+Rp 100.000</td>
-                            <td>Rp 800.000</td>
-                            <td><span class="stat-card-badge up">+12.5%</span></td>
-                            <td><span class="status-badge success">Diterima</span></td>
-                        </tr>
-                        <tr>
-                            <td><code style="color: var(--gold);">#PRF006</code></td>
-                            <td>25 Des 2023</td>
-                            <td><span style="color: var(--loss-red);"><i
-                                        class="bi bi-arrow-up-circle me-1"></i>Withdraw</span></td>
-                            <td style="color: var(--loss-red);">-Rp 200.000</td>
-                            <td>-</td>
-                            <td>-</td>
-                            <td><span class="status-badge success">Berhasil</span></td>
-                        </tr>
-                        <tr>
-                            <td><code style="color: var(--gold);">#PRF007</code></td>
-                            <td>20 Des 2023</td>
-                            <td><span style="color: var(--profit-green);"><i
-                                        class="bi bi-plus-circle me-1"></i>Profit</span></td>
-                            <td style="color: var(--profit-green);">+Rp 80.000</td>
-                            <td>Rp 800.000</td>
-                            <td><span class="stat-card-badge up">+10%</span></td>
-                            <td><span class="status-badge success">Diterima</span></td>
-                        </tr>
-                        <tr>
-                            <td><code style="color: var(--gold);">#PRF008</code></td>
-                            <td>12 Des 2023</td>
-                            <td><span style="color: var(--profit-green);"><i
-                                        class="bi bi-plus-circle me-1"></i>Profit</span></td>
-                            <td style="color: var(--profit-green);">+Rp 120.000</td>
-                            <td>Rp 800.000</td>
-                            <td><span class="stat-card-badge up">+15%</span></td>
-                            <td><span class="status-badge success">Diterima</span></td>
-                        </tr>
+                        @foreach ($listProfit as $item)
+                            <tr>
+                                <td><code style="color: var(--gold);">{{ $item['id'] }}</code></td>
+                                <td>{{ $item['tanggal'] }}</td>
+                                <td><span style="color: var(--profit-green);"><i
+                                            class="bi bi-plus-circle me-1"></i>{{ $item['tipe'] }}</span></td>
+                                <td style="color: var(--profit-green);">+Rp {{ number_format($item['nominal'], 0) }}</td>
+                                <td>Rp {{ number_format($item['modal'], 0) }}</td>
+                                <td><span class="stat-card-badge up">+{{ $item['roi'] }}%</span></td>
+                                {{-- <td><span class="status-badge success">Diterima</span></td> --}}
+                            </tr>
+                        @endforeach
                     </tbody>
                 </table>
             </div>
