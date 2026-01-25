@@ -28,7 +28,13 @@ class TradesTable
                     ->numeric()
                     ->sortable(),
                 TextColumn::make('status')
-                    ->badge(),
+                    ->badge()
+                    ->color(fn(string $state): string => match ($state) {
+                        'active' => 'success',
+                        'cancelled' => 'danger',
+                        'completed' => 'gray',
+                        default => 'secondary',
+                    }),
                 TextColumn::make('cancel_fee_amount')
                     ->formatStateUsing(fn($state) => 'Rp ' . number_format($state, 0))
                     ->sortable(),
@@ -54,7 +60,7 @@ class TradesTable
                 //
             ])
             ->recordActions([
-                EditAction::make(),
+                // EditAction::make(),
                 Action::make('cancel')
                     ->label('Batalkan')
                     ->color('danger')
@@ -66,9 +72,9 @@ class TradesTable
                     }),
             ])
             ->toolbarActions([
-                BulkActionGroup::make([
-                    DeleteBulkAction::make(),
-                ]),
+                // BulkActionGroup::make([
+                //     DeleteBulkAction::make(),
+                // ]),
             ]);
     }
 }
