@@ -337,7 +337,7 @@
                 <a href="{{ route('member.register') }}" class="btn-gold">
                     <i class="bi bi-person-plus me-2"></i>Daftar Sekarang
                 </a>
-                <a href="https://wa.me/6281234567890" target="_blank" class="btn-silver">
+                <a href="https://wa.me/6282191756233" target="_blank" class="btn-silver">
                     <i class="bi bi-whatsapp me-2"></i>Hubungi Admin
                 </a>
             </div>
@@ -358,7 +358,7 @@
                     </p>
                     <div class="social-links">
                         <a href="#"><i class="bi bi-telegram"></i></a>
-                        <a href="#"><i class="bi bi-whatsapp"></i></a>
+                        <a href="https://wa.me/6282191756233" target="_blank"><i class="bi bi-whatsapp"></i></a>
                         <a href="#"><i class="bi bi-instagram"></i></a>
                         <a href="#"><i class="bi bi-youtube"></i></a>
                     </div>
