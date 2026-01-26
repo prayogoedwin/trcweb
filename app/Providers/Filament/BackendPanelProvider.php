@@ -39,7 +39,8 @@ class BackendPanelProvider extends PanelProvider
             ->brandName(env('APP_NAME', 'LARAVEL-STARTER'))
             // ->brandLogo(asset('img/logo.png'))
             // ->brandLogoHeight('4rem') // Ubah sesuai kebutuhan (3rem, 4rem, dll)
-            ->favicon(asset('img/favicon_io/favicon.ico'))
+            // ->favicon(asset('img/favicon_io/favicon.ico'))
+            ->favicon('https://traderrahamancommunity.com/trc-logo.jpg')
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')
             ->pages([

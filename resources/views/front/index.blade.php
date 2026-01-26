@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Trader Rahman Community (TRC) - Expert Advisor Forex Trading</title>
+    <link rel="icon" type="image/x-icon" href="https://traderrahamancommunity.com/trc-logo.jpg">
     <meta name="description"
         content="TRC adalah komunitas trading yang menyediakan layanan Expert Advisor (EA) Forex dengan fokus utama pada pair Gold (XAUUSD).">
 
