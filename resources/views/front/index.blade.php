@@ -387,8 +387,8 @@
                 <div class="col-lg-3 col-md-4">
                     <h5 class="footer-title">Kontak</h5>
                     <ul class="footer-links">
-                        <li><i class="bi bi-envelope me-2 text-gold"></i> admin@trc.com</li>
-                        <li><i class="bi bi-whatsapp me-2 text-gold"></i> +62 812 3456 7890</li>
+                        <li><i class="bi bi-envelope me-2 text-gold"></i>traderrahmancommunnity@gmail.com</li>
+                        <li><i class="bi bi-whatsapp me-2 text-gold"></i> +62082191756233</li>
                         <li><i class="bi bi-geo-alt me-2 text-gold"></i> Indonesia</li>
                     </ul>
                 </div>
