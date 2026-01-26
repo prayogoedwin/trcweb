@@ -34,15 +34,15 @@ class BannerResource extends Resource
 
     protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-rectangle-stack';
 
-        //setting letak grup menu
-    protected static string | \UnitEnum | null $navigationGroup = 'Web Setting';
-    protected static ?int $navigationSort = 1; // Urutan setelah Kategori
+    //setting letak grup menu
+    // protected static string | \UnitEnum | null $navigationGroup = 'Web Setting';
+    // protected static ?int $navigationSort = 1; // Urutan setelah Kategori
 
     // Label
     protected static ?string $modelLabel = 'Banner';
     protected static ?string $pluralModelLabel = 'Banner';
-
-      public static function canAccess(): bool
+    protected static bool $shouldRegisterNavigation = false;
+    public static function canAccess(): bool
     {
         return auth()->check() && auth()->user()->can('view banners');
     }
@@ -82,9 +82,9 @@ class BannerResource extends Resource
         return $schema
             ->components([
                 TextInput::make('judul')->required(),
-                 Toggle::make('status')
-                        ->label('Status')
-                        ->inline(false),
+                Toggle::make('status')
+                    ->label('Status')
+                    ->inline(false),
                 FileUpload::make('foto')
                     ->label('Banner (1280px X 400px)')
                     ->disk('public') // PASTIKAN INI ADA
@@ -95,7 +95,7 @@ class BannerResource extends Resource
                     // ->imageResizeMode('cover')
                     // ->imageCropAspectRatio('16:9')
                     ->columnSpanFull()
-                    ->required(fn (string $context): bool => $context === 'create') // Hanya required saat create
+                    ->required(fn(string $context): bool => $context === 'create') // Hanya required saat create
                     ->required(),
             ]);
     }
@@ -104,7 +104,7 @@ class BannerResource extends Resource
     {
         return $table
             ->columns([
-                 ImageColumn::make('foto')
+                ImageColumn::make('foto')
                     ->label('Banner')
                     ->disk('public')
                     ->height(180),
@@ -112,20 +112,20 @@ class BannerResource extends Resource
                     ->label('Judul')
                     ->searchable()
                     ->sortable(),
-                 BadgeColumn::make('status')
-                ->label('Status')
-                ->formatStateUsing(fn ($state) => match ($state) {
-                    0 => 'Nonaktif',
-                    1 => 'Aktif',
-                    2 => 'Selesai',
-                    default => 'Unknown',
-                })
-                ->colors([
-                    'danger' => 0,
-                    'success' => 1,
-                    'warning' => 2,
-                ])
-                ->sortable(),
+                BadgeColumn::make('status')
+                    ->label('Status')
+                    ->formatStateUsing(fn($state) => match ($state) {
+                        0 => 'Nonaktif',
+                        1 => 'Aktif',
+                        2 => 'Selesai',
+                        default => 'Unknown',
+                    })
+                    ->colors([
+                        'danger' => 0,
+                        'success' => 1,
+                        'warning' => 2,
+                    ])
+                    ->sortable(),
             ])
             ->defaultSort('created_at', 'desc')
             ->filters([

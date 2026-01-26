@@ -30,15 +30,16 @@ class BeritaResource extends Resource
 
     protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-rectangle-stack';
 
-      //setting letak grup menu
-    protected static string | \UnitEnum | null $navigationGroup = 'Web Setting';
-    protected static ?int $navigationSort = 4; // Urutan setelah Kategori
+    //setting letak grup menu
+    // protected static string | \UnitEnum | null $navigationGroup = 'Web Setting';
+    // protected static ?int $navigationSort = 4; // Urutan setelah Kategori
 
     // Label
     protected static ?string $modelLabel = 'Berita';
     protected static ?string $pluralModelLabel = 'Berita';
+    protected static bool $shouldRegisterNavigation = false;
 
-      public static function canAccess(): bool
+    public static function canAccess(): bool
     {
         return auth()->check() && auth()->user()->can('view beritas');
     }
@@ -92,7 +93,7 @@ class BeritaResource extends Resource
                     ->imageResizeTargetWidth('800')
                     ->imageResizeTargetHeight('600')
                     ->columnSpanFull()
-                    ->required(fn (string $context): bool => $context === 'create') // Hanya required saat create
+                    ->required(fn(string $context): bool => $context === 'create') // Hanya required saat create
                     ->required(),
             ]);
     }

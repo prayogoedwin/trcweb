@@ -32,12 +32,13 @@ class InformasiResource extends Resource
 
 
     //setting letak grup menu
-    protected static string | \UnitEnum | null $navigationGroup = 'Web Setting';
-    protected static ?int $navigationSort = 3; // Urutan setelah Kategori
+    // protected static string | \UnitEnum | null $navigationGroup = 'Web Setting';
+    // protected static ?int $navigationSort = 3; // Urutan setelah Kategori
 
     // Label
     protected static ?string $modelLabel = 'Informasi';
     protected static ?string $pluralModelLabel = 'Informasi';
+    protected static bool $shouldRegisterNavigation = false;
 
     public static function canAccess(): bool
     {
@@ -78,9 +79,9 @@ class InformasiResource extends Resource
     {
         return $schema
             ->components([
-                 TextInput::make('slug')->required(),
-                 TextInput::make('nama')->required(),
-                 RichEditor::make('description')->required()->columnSpan('full'),
+                TextInput::make('slug')->required(),
+                TextInput::make('nama')->required(),
+                RichEditor::make('description')->required()->columnSpan('full'),
             ]);
     }
 

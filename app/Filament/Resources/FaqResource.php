@@ -30,14 +30,15 @@ class FaqResource extends Resource
     protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-rectangle-stack';
 
     //setting letak grup menu
-    protected static string | \UnitEnum | null $navigationGroup = 'Web Setting';
-    protected static ?int $navigationSort = 2; // Urutan setelah Kategori
+    // protected static string | \UnitEnum | null $navigationGroup = 'Web Setting';
+    // protected static ?int $navigationSort = 2; // Urutan setelah Kategori
 
     // Label
     protected static ?string $modelLabel = 'FAQ';
     protected static ?string $pluralModelLabel = 'FAQ';
+    protected static bool $shouldRegisterNavigation = false;
 
-      public static function canAccess(): bool
+    public static function canAccess(): bool
     {
         return auth()->check() && auth()->user()->can('view faqs');
     }
@@ -85,7 +86,7 @@ class FaqResource extends Resource
     {
         return $table
             ->columns([
-                 TextColumn::make('nama')
+                TextColumn::make('nama')
                     ->label('Nama Faq')
                     ->searchable()
                     ->sortable(),

@@ -82,7 +82,7 @@
                         </div>
 
                         <div class="mt-5 d-flex gap-3 flex-wrap">
-                            <a href="register.html" class="btn-gold">
+                            <a href="{{ route('member.register') }}" class="btn-gold">
                                 <i class="bi bi-rocket-takeoff me-2"></i>Mulai Sekarang
                             </a>
                             <a href="#layanan" class="btn-silver">
@@ -331,9 +331,9 @@
     <section class="section cta-section" id="kontak">
         <div class="container text-center">
             <h2 class="cta-title">Siap Bergabung dengan <span style="color: var(--gold);">TRC?</span></h2>
-            <p class="cta-text">Dapatkan hasil trading yang konsisten setiap minggu tanpa harus trading sendiri.</p>
+            <p class="cta-text">Dapatkan hasil trading yang konsisten setiap hari tanpa harus trading sendiri.</p>
             <div class="d-flex gap-3 justify-content-center flex-wrap">
-                <a href="register.html" class="btn-gold">
+                <a href="{{ route('member.register') }}" class="btn-gold">
                     <i class="bi bi-person-plus me-2"></i>Daftar Sekarang
                 </a>
                 <a href="https://wa.me/6281234567890" target="_blank" class="btn-silver">
@@ -376,10 +376,10 @@
                 <div class="col-lg-3 col-md-4">
                     <h5 class="footer-title">Member Area</h5>
                     <ul class="footer-links">
-                        <li><a href="login.html">Login</a></li>
-                        <li><a href="register.html">Daftar</a></li>
-                        <li><a href="dashboard.html">Dashboard</a></li>
-                        <li><a href="profile.html">Profil</a></li>
+                        <li><a href="{{ route('member.login') }}">Login</a></li>
+                        <li><a href="{{ route('member.register') }}">Daftar</a></li>
+                        <li><a href="{{ route('member.dashboard') }}">Dashboard</a></li>
+                        <li><a href="{{ route('member.profile') }}">Profil</a></li>
                     </ul>
                 </div>
 
