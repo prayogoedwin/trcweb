@@ -32,7 +32,7 @@ class UserResource extends Resource
 
     protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-rectangle-stack';
 
-     //setting letak grup menu
+    //setting letak grup menu
     protected static string | \UnitEnum | null $navigationGroup = 'Pengguna';
     protected static ?int $navigationSort = 3; // Urutan setelah Kategori
 
@@ -40,7 +40,7 @@ class UserResource extends Resource
     protected static ?string $modelLabel = 'Admin';
     protected static ?string $pluralModelLabel = 'Admin';
 
-        public static function canAccess(): bool
+    public static function canAccess(): bool
     {
         return auth()->check() && auth()->user()->can('view users');
     }
@@ -82,36 +82,36 @@ class UserResource extends Resource
                 TextInput::make('name')->required()->columnSpanFull(),
                 TextInput::make('email')->required(),
                 Select::make('roles')
-                ->relationship('roles', 'name')
-                ->preload()
-                ->label('Roles'),
+                    ->relationship('roles', 'name')
+                    ->multiple()
+                    ->preload()
+                    ->label('Roles'),
                 TextInput::make('password')
-                ->required()
-                ->password() // Ubah menjadi input type password
-                ->revealable() // Tambahkan tombol lihat/sembunyikan
-                ->minLength(8) // Validasi panjang minimum
-                ->confirmed() // Untuk fitur konfirmasi password
-                ->rules(['nullable']) // Tidak wajib diisi saat edit
-                ->dehydrated(fn ($state) => filled($state)) // Hindari hash jika kosong
-                ->autocomplete('new-password') // Hindari autofill browser
-                ->prefixIcon('heroicon-o-lock-closed'), // Tambahkan ikon
-            
-            // Field konfirmasi password (opsional tapi disarankan)
-            TextInput::make('password_confirmation')
-                ->requiredWith('password')
-                ->password()
-                ->revealable()
-                ->label('Confirm Password')
-                ->dehydrated(false), // Jangan simpan ke database
+                    ->required()
+                    ->password() // Ubah menjadi input type password
+                    ->revealable() // Tambahkan tombol lihat/sembunyikan
+                    ->minLength(8) // Validasi panjang minimum
+                    ->confirmed() // Untuk fitur konfirmasi password
+                    ->rules(['nullable']) // Tidak wajib diisi saat edit
+                    ->dehydrated(fn($state) => filled($state)) // Hindari hash jika kosong
+                    ->autocomplete('new-password') // Hindari autofill browser
+                    ->prefixIcon('heroicon-o-lock-closed'), // Tambahkan ikon
+
+                // Field konfirmasi password (opsional tapi disarankan)
+                TextInput::make('password_confirmation')
+                    ->requiredWith('password')
+                    ->password()
+                    ->revealable()
+                    ->label('Confirm Password')
+                    ->dehydrated(false), // Jangan simpan ke database
             ]);
-            
     }
 
     public static function table(Table $table): Table
     {
         return $table
             ->columns([
-                 TextColumn::make('name')
+                TextColumn::make('name')
                     ->label('Nama')
                     ->searchable()
                     ->sortable(),
@@ -123,7 +123,7 @@ class UserResource extends Resource
                     ->label('Role')
                     ->getStateUsing(fn($record) => $record->roles->pluck('name')->join(', '))
                     ->sortable(),
-                            ])
+            ])
             ->defaultSort('created_at', 'desc')
             ->filters([
                 //
