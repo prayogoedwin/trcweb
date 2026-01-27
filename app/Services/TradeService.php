@@ -10,6 +10,7 @@ use App\Models\Member;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Exception;
+use Illuminate\Support\Facades\Log;
 
 class TradeService
 {
@@ -40,17 +41,30 @@ class TradeService
             throw new Exception('Saldo tidak mencukupi');
         }
 
-        return Trade::create([
-            'member_id' => $member->id,
-            'modal' => $modal,
+        return DB::transaction(function () use ($member, $modal, $config) {
 
-            // snapshot config
-            'profit_percent' => $config->profit_percent,
-            'cancel_fee_percent' => $config->cancel_fee_percent,
+            // 1️⃣ kunci saldo ke wallet
+            Wallet::create([
+                'member_id' => $member->id,
+                'type' => 'withdraw', // saldo keluar
+                'nominal' => $modal,
+                'status' => 1,
+                'metode_pembayaran' => 'trade_lock',
+            ]);
 
-            'status' => 'active',
-            'started_at' => now(),
-        ]);
+            // 2️⃣ buat trade
+            return Trade::create([
+                'member_id' => $member->id,
+                'modal' => $modal,
+
+                // snapshot config
+                'profit_percent' => $config->profit_percent,
+                'cancel_fee_percent' => $config->cancel_fee_percent,
+
+                'status' => 'active',
+                'started_at' => now(),
+            ]);
+        });
     }
 
     /**
@@ -63,8 +77,9 @@ class TradeService
         }
 
         $fee = $trade->modal * ($trade->cancel_fee_percent / 100);
+        $refund = $trade->modal - $fee;
 
-        DB::transaction(function () use ($trade, $fee) {
+        DB::transaction(function () use ($trade, $fee, $refund) {
 
             $trade->update([
                 'status' => 'cancelled',
@@ -76,9 +91,9 @@ class TradeService
             Wallet::create([
                 'member_id' => $trade->member_id,
                 'type' => 'topup',
-                'nominal' => $fee,
+                'nominal' => $refund,
                 'status' => 1,
-                'metode_pembayaran' => 'trade_cancel_fee',
+                'metode_pembayaran' => 'trade_refund',
             ]);
         });
     }
@@ -92,10 +107,10 @@ class TradeService
 
         foreach ($trades as $trade) {
 
-            $today = now()->format('Y-m-d H:i');
+            $today = now()->toDateString();
 
             $already = TradeProfit::where('trade_id', $trade->id)
-                ->where('profit_date', $today)
+                ->whereDate('profit_date', $today)
                 ->exists();
 
             if ($already) {
@@ -104,30 +119,38 @@ class TradeService
 
             $profit = $trade->modal * ($trade->profit_percent / 100);
 
-            DB::transaction(function () use ($trade, $profit, $today) {
+            try {
+                DB::transaction(function () use ($trade, $profit, $today) {
 
-                TradeProfit::create([
+                    TradeProfit::create([
+                        'trade_id' => $trade->id,
+                        'member_id' => $trade->member_id,
+                        'percent' => $trade->profit_percent,
+                        'amount' => $profit,
+                        'profit_date' => $today,
+                    ]);
+
+                    Wallet::create([
+                        'member_id' => $trade->member_id,
+                        'type' => 'profit',
+                        'nominal' => $profit,
+                        'status' => 1,
+                        'metode_pembayaran' => 'trade_profit',
+                    ]);
+
+                    $trade->update([
+                        'last_profit_at' => now(),
+                    ]);
+                });
+            } catch (\Throwable $th) {
+                Log::error('Profit gagal', [
                     'trade_id' => $trade->id,
-                    'member_id' => $trade->member_id,
-                    'percent' => $trade->profit_percent,
-                    'amount' => $profit,
-                    'profit_date' => $today,
+                    'error' => $th->getMessage(),
                 ]);
-
-                Wallet::create([
-                    'member_id' => $trade->member_id,
-                    'type' => 'profit',
-                    'nominal' => $profit,
-                    'status' => 1,
-                    'metode_pembayaran' => 'trade_profit',
-                ]);
-
-                $trade->update([
-                    'last_profit_at' => now(),
-                ]);
-            });
+            }
         }
     }
+
 
     public static function weeklyReportByUser(int $memberId)
     {
@@ -219,38 +242,37 @@ class TradeService
             });
     }
 
-    public static function listProfitByUser(int $memberId)
+    public static function listProfitByUser(int $memberId, int $perPage = 10)
     {
-        return TradeProfit::query()
+        $paginator = TradeProfit::query()
             ->where('trade_profits.member_id', $memberId)
             ->join('trades', 'trades.id', '=', 'trade_profits.trade_id')
-            // ->leftJoin('wallets', function ($join) {
-            //     $join->on('wallets.member_id', '=', 'trade_profits.member_id')
-            //         ->where('wallets.metode_pembayaran', 'trade_profit');
-            // })
             ->select(
                 'trade_profits.id',
                 'trade_profits.profit_date',
                 'trade_profits.amount',
-                'trades.modal',
-                // DB::raw('wallets.status as wallet_status')
+                'trades.modal'
             )
             ->orderByDesc('trade_profits.profit_date')
-            ->get()
-            ->map(function ($row) {
+            ->paginate($perPage);
 
-                $roi = $row->modal > 0
-                    ? round(($row->amount / $row->modal) * 100, 2)
-                    : 0;
+        // transform collection TANPA merusak paginator
+        $paginator->getCollection()->transform(function ($row) {
 
-                return [
-                    'id' => $row->id,
-                    'tanggal' => Carbon::parse($row->profit_date)->format('d M Y'),
-                    'tipe' => 'Profit',
-                    'nominal' => $row->amount,
-                    'modal' => $row->modal,
-                    'roi' => $roi,
-                ];
-            });
+            $roi = $row->modal > 0
+                ? round(($row->amount / $row->modal) * 100, 2)
+                : 0;
+
+            return [
+                'id' => $row->id,
+                'tanggal' => Carbon::parse($row->profit_date)->format('d M Y'),
+                'tipe' => 'Profit',
+                'nominal' => $row->amount,
+                'modal' => $row->modal,
+                'roi' => $roi,
+            ];
+        });
+
+        return $paginator;
     }
 }

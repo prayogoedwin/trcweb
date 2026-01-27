@@ -5,6 +5,10 @@ namespace App\Http\Controllers\Member;
 use App\Http\Controllers\Controller;
 use App\Models\Bank;
 use App\Models\Member;
+use App\Models\Trade;
+use App\Models\TradeProfit;
+use App\Services\SaldoService;
+use App\Services\TradeService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -15,7 +19,11 @@ class ProfileController extends Controller
     {
         $data = Auth::guard('member')->user();
         $bank = Bank::where('member_id', $data->id)->get();
-        return view('member.profile.index', compact('data', 'bank'));
+        $saldo = SaldoService::getSaldo(Auth::guard('member')->user());
+        $tradeAktif = TradeService::getTradeAktif(Auth::guard('member')->user());
+        $totalProfit = TradeProfit::where('member_id', Auth::guard('member')->user()->id)->sum('amount');
+        $totalTrade = Trade::where('member_id', Auth::guard('member')->user()->id)->count();
+        return view('member.profile.index', compact('data', 'bank', 'saldo', 'tradeAktif', 'totalProfit', 'totalTrade'));
     }
 
     public function updateProfil(Request $request)

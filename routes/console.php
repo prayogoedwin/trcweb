@@ -4,6 +4,7 @@ use App\Models\TradeConfig;
 use App\Services\TradeService;
 use Illuminate\Foundation\Inspiring;
 use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Schedule;
 
 // Artisan::command('inspire', function () {
@@ -12,6 +13,7 @@ use Illuminate\Support\Facades\Schedule;
 
 // Schedule::call(function () {
 //     TradeService::processDailyProfit();
+//     Log::info('Scheduler dipanggil', ['time' => now()]);
 // })->everyMinute();
 
 Schedule::call(function () {

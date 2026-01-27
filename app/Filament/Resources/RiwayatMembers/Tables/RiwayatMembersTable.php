@@ -36,6 +36,7 @@ class RiwayatMembersTable
                     ->dateTime()
                     ->sortable()
             ])
+            ->defaultSort('id', 'desc')
             ->filters([
                 //
             ])

@@ -78,6 +78,8 @@ Route::middleware(CheckMaintenanceMode::class)->group(function () {
         // Register Member
         Route::get('/register', [MemberRegisterController::class, 'showRegisterForm'])->name('member.register');
         Route::post('/register', [MemberRegisterController::class, 'register'])->name('member.register.submit');
+        Route::get('register-referal/{referal}', [MemberRegisterController::class, 'registerReferal'])->name('member.register.referal');
+        Route::post('register-referal', [MemberRegisterController::class, 'registerReferalStore'])->name('member.register.referal.submit');
 
         // Forgot Password
         Route::get('password/reset', [MemberForgotPasswordController::class, 'showLinkRequestForm'])->name('member.password.request');

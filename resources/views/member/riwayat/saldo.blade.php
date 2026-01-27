@@ -95,28 +95,55 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($allTransaction as $transaction)
+                        @foreach ($allTransaction as $item)
                             @php
-                                $isTopup = $transaction->type === 'topup' || $transaction->type === 'profit';
-                                $color = $isTopup ? 'var(--profit-green)' : 'var(--loss-red)';
+                                $isTradeLock = $item->metode_pembayaran === 'trade_lock';
+
+                                if ($isTradeLock) {
+                                    $label = 'Trade';
+                                    $color = 'var(--gold)';
+                                    $icon = 'bi-arrow-up-circle';
+                                    $sign = '-';
+                                } elseif ($item->type === 'profit') {
+                                    $label = 'Profit';
+                                    $color = 'var(--profit-green)';
+                                    $icon = 'bi-arrow-down-circle';
+                                    $sign = '+';
+                                } elseif ($item->type === 'topup') {
+                                    $label = 'Topup';
+                                    $color = 'var(--profit-green)';
+                                    $icon = 'bi-arrow-down-circle';
+                                    $sign = '+';
+                                } else {
+                                    $label = 'Withdraw';
+                                    $color = 'var(--loss-red)';
+                                    $icon = 'bi-arrow-up-circle';
+                                    $sign = '-';
+                                }
                             @endphp
                             <tr>
-                                <td><code style="color: var(--gold);">#{{ $transaction->id }}</code></td>
-                                <td>{{ $transaction->created_at->format('d M Y') }}</td>
+                                <td><code style="color: var(--gold);">#{{ $item->id }}</code></td>
+                                <td>
+                                    {{ $item->created_at->format('d-m-Y') }}
+                                </td>
+
                                 <td>
                                     <span style="color: {{ $color }}">
-                                        <i
-                                            class="bi {{ $isTopup ? 'bi-arrow-down-circle' : 'bi-arrow-up-circle' }} me-1"></i>
-                                        {{ ucfirst($transaction->type) }}
+                                        <i class="bi {{ $icon }} me-1"></i>
+                                        {{ $label }}
                                     </span>
                                 </td>
 
                                 <td style="color: {{ $color }}">
-                                    {{ $isTopup ? '+' : '-' }}Rp {{ number_format($transaction->nominal, 0, ',', '.') }}
+                                    {{ $sign }}Rp {{ number_format($item->nominal) }}
                                 </td>
-                                <td>{{ ucwords($transaction->metode_pembayaran) }}</td>
-                                <td><span
-                                        class="status-badge success">{{ $transaction->status == 1 ? 'Terverifikasi' : 'Belum Terverifikasi' }}</span>
+                                <td>{{ str_replace('_', ' ', ucwords($item->metode_pembayaran)) }}</td>
+                                <td>
+                                    @if ($item->status == 1)
+                                        <span class="status-badge success">Terverifikasi</span>
+                                    @else
+                                        <span class="status-badge warning">Menunggu</span>
+                                    @endif
                                 </td>
                             </tr>
                         @endforeach
@@ -126,23 +153,11 @@
 
             <!-- Pagination -->
             <div class="d-flex justify-content-between align-items-center mt-4">
-                <span style="color: var(--text-muted);">Menampilkan 1-7 dari 12</span>
-                <nav>
-                    <ul class="pagination mb-0" style="gap: 5px;">
-                        <li class="page-item disabled"><a class="page-link" href="#"
-                                style="background: var(--bg-tertiary); border-color: var(--border-color); color: var(--text-muted);">Prev</a>
-                        </li>
-                        <li class="page-item active"><a class="page-link" href="#"
-                                style="background: var(--gold); border-color: var(--gold); color: var(--bg-primary);">1</a>
-                        </li>
-                        <li class="page-item"><a class="page-link" href="#"
-                                style="background: var(--bg-tertiary); border-color: var(--border-color); color: var(--text-secondary);">2</a>
-                        </li>
-                        <li class="page-item"><a class="page-link" href="#"
-                                style="background: var(--bg-tertiary); border-color: var(--border-color); color: var(--text-secondary);">Next</a>
-                        </li>
-                    </ul>
-                </nav>
+                <span style="color: var(--text-muted);">
+                    Menampilkan {{ $allTransaction->firstItem() }}-{{ $allTransaction->lastItem() }}
+                    dari {{ $allTransaction->total() }}
+                </span>
+                {{ $allTransaction->links('vendor.pagination.custom') }}
             </div>
         </div>
     </main>

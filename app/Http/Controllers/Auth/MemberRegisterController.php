@@ -18,6 +18,11 @@ class MemberRegisterController extends Controller
         return view('auth.register'); // View register khusus member
     }
 
+    public function registerReferal($referal)
+    {
+        return view('auth.register_referal', compact('referal'));
+    }
+
     public function register(Request $request)
     {
 
@@ -84,5 +89,53 @@ class MemberRegisterController extends Controller
         });
 
         return redirect('/member/login')->with('success', 'Registrasi berhasil, silakan login.');
+    }
+
+    public function registerReferalStore(Request $request)
+    {
+        $request->validate([
+            'name' => 'required',
+            'email' => 'required|email|unique:members',
+            'password' => 'required|min:8',
+            'whatsapp' => 'required',
+        ]);
+
+        try {
+            $referal = $request->referal;
+            $user = Member::where('no_referal', $referal)->first();
+            if (!$user) {
+                return back()->withErrors([
+                    'referal' => 'Kode referal tidak ditemukan!',
+                ]);
+            } else {
+                DB::transaction(function () use ($request, $referal, $user) {
+                    $member = Member::create([
+                        'name' => $request->name,
+                        'email' => $request->email,
+                        'password' => Hash::make($request->password),
+                        'whatsapp' => $request->whatsapp,
+                        'no_referal' => strtoupper(Str::random(8)),
+                        'referred_by' => $user?->id,
+                    ]);
+
+                    if ($user) {
+                        $reward = Referal::first();
+                        $wallet = Wallet::create([
+                            'member_id' => $user->id,
+                            'nominal' => $reward->nominal,
+                            'type' => 'topup',
+                            'metode_pembayaran' => 'referal',
+                            'status' => 1
+                        ]);
+                    }
+                });
+
+                return redirect('/member/login')->with('success', 'Registrasi berhasil, silakan login.');
+            }
+        } catch (\Throwable $th) {
+            return back()->withErrors([
+                'message' => $th->getMessage(),
+            ]);
+        }
     }
 }

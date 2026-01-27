@@ -67,6 +67,18 @@
                             </button>
                         </div>
                     </div>
+                    <div>
+                        <label style="color: var(--text-muted); font-size: 0.85rem;">Link Register Referal</label>
+                        <div class="d-flex align-items-center gap-2 mt-1">
+                            <code
+                                style="background: var(--bg-tertiary); padding: 10px 20px; border-radius: 8px; color: var(--gold); font-size: 1.1rem;">{{ route('member.register.referal', $data->no_referal) }}</code>
+                            <button class="btn btn-sm"
+                                style="background: var(--bg-tertiary); color: var(--text-secondary); border: 1px solid var(--border-color);"
+                                onclick="copyLinkReferral()">
+                                <i class="bi bi-copy"></i>
+                            </button>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="col-lg-6 mb-4">
@@ -111,7 +123,7 @@
                                 <i class="bi bi-wallet2" style="font-size: 2rem; color: var(--gold);"></i>
                                 <div
                                     style="color: var(--text-primary); font-family: 'Orbitron', sans-serif; font-size: 1.2rem; margin-top: 10px;">
-                                    Rp 2.5jt</div>
+                                    Rp {{ number_format($saldo, 0) }}</div>
                                 <small style="color: var(--text-muted);">Saldo Akun</small>
                             </div>
                         </div>
@@ -120,7 +132,7 @@
                                 <i class="bi bi-cash-stack" style="font-size: 2rem; color: var(--silver);"></i>
                                 <div
                                     style="color: var(--text-primary); font-family: 'Orbitron', sans-serif; font-size: 1.2rem; margin-top: 10px;">
-                                    Rp 1jt</div>
+                                    Rp {{ number_format($tradeAktif, 0) }}</div>
                                 <small style="color: var(--text-muted);">Modal Aktif</small>
                             </div>
                         </div>
@@ -129,7 +141,7 @@
                                 <i class="bi bi-graph-up-arrow" style="font-size: 2rem; color: var(--profit-green);"></i>
                                 <div
                                     style="color: var(--profit-green); font-family: 'Orbitron', sans-serif; font-size: 1.2rem; margin-top: 10px;">
-                                    Rp 750rb</div>
+                                    Rp {{ number_format($totalProfit, 0) }}</div>
                                 <small style="color: var(--text-muted);">Total Profit</small>
                             </div>
                         </div>
@@ -138,7 +150,7 @@
                                 <i class="bi bi-graph-up" style="font-size: 2rem; color: var(--gold);"></i>
                                 <div
                                     style="color: var(--text-primary); font-family: 'Orbitron', sans-serif; font-size: 1.2rem; margin-top: 10px;">
-                                    15</div>
+                                    {{ $totalTrade }}</div>
                                 <small style="color: var(--text-muted);">Total Trade</small>
                             </div>
                         </div>
@@ -301,6 +313,11 @@
         function copyReferral() {
             navigator.clipboard.writeText('{{ $data->no_referal }}');
             alert('Kode referral berhasil disalin!');
+        }
+
+        function copyLinkReferral() {
+            navigator.clipboard.writeText('{{ route('member.register.referal', $data->no_referal) }}');
+            alert('Link berhasil disalin!');
         }
     </script>
 @endpush

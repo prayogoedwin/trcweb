@@ -154,11 +154,13 @@
                                     @endif
                                 </td>
                                 <td>
-                                    <button class="status-badge info btn-cancel-trade" data-id="{{ $item->id }}"
-                                        style="border: none; background: transparent; font-color: white;">
-                                        <i class="bi bi-x-circle me-1"></i>
-                                        Batalkan Trading
-                                    </button>
+                                    @if ($item->status === 'active')
+                                        <button class="status-badge info btn-cancel-trade" data-id="{{ $item->id }}"
+                                            style="border: none; background: transparent; font-color: white;">
+                                            <i class="bi bi-x-circle me-1"></i>
+                                            Batalkan Trading
+                                        </button>
+                                    @endif
                                 </td>
                             </tr>
                         @endforeach
@@ -278,7 +280,7 @@
                     }
                 },
                 error: function(xhr) {
-                    console.error(xhr.responseText);
+                    // console.error(xhr.responseJSON.message);
 
                     if (xhr.status === 401) {
                         alert('Silakan login ulang');
@@ -287,7 +289,11 @@
                         alert('Session habis, refresh halaman');
                         location.reload();
                     } else {
-                        alert('Terjadi kesalahan sistem');
+                        if (xhr.responseJSON.message == 'Saldo tidak mencukupi') {
+                            alert('Saldo tidak mencukupi');
+                        } else {
+                            alert('Terjadi kesalahan sistem');
+                        }
                     }
                 }
             });

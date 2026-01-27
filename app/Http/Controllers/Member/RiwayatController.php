@@ -28,7 +28,7 @@ class RiwayatController extends Controller
             ->sum('nominal');
 
         $saldo = SaldoService::getSaldo(Auth::guard('member')->user());
-        $allTransaction = Wallet::where('member_id', Auth::guard('member')->user()->id)->orderBy('created_at', 'desc')->get();
+        $allTransaction = Wallet::where('member_id', Auth::guard('member')->user()->id)->orderBy('created_at', 'desc')->paginate(10);
         return view('member.riwayat.saldo', compact('saldo', 'totalTopup', 'totalWithdraw', 'allTransaction'));
     }
 

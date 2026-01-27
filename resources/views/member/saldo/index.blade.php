@@ -87,31 +87,56 @@
                     <tbody>
                         @foreach ($riwayat as $item)
                             @php
-                                $isTopup = $item->type === 'topup' || $item->type === 'profit';
-                                $color = $isTopup ? 'var(--profit-green)' : 'var(--loss-red)';
+                                $isTradeLock = $item->metode_pembayaran === 'trade_lock';
+
+                                if ($isTradeLock) {
+                                    $label = 'Trade';
+                                    $color = 'var(--gold)';
+                                    $icon = 'bi-arrow-up-circle';
+                                    $sign = '-';
+                                } elseif ($item->type === 'profit') {
+                                    $label = 'Profit';
+                                    $color = 'var(--profit-green)';
+                                    $icon = 'bi-arrow-down-circle';
+                                    $sign = '+';
+                                } elseif ($item->type === 'topup') {
+                                    $label = 'Topup';
+                                    $color = 'var(--profit-green)';
+                                    $icon = 'bi-arrow-down-circle';
+                                    $sign = '+';
+                                } else {
+                                    $label = 'Withdraw';
+                                    $color = 'var(--loss-red)';
+                                    $icon = 'bi-arrow-up-circle';
+                                    $sign = '-';
+                                }
                             @endphp
 
                             <tr>
-                                <td>{{ $item->created_at->format('d-m-Y H:i') }}</td>
+                                <td>
+                                    {{ $item->created_at->format('d-m-Y') }},
+                                    {{ $item->created_at->format('H:i') }}
+                                </td>
 
                                 <td>
                                     <span style="color: {{ $color }}">
-                                        <i
-                                            class="bi {{ $isTopup ? 'bi-arrow-down-circle' : 'bi-arrow-up-circle' }} me-1"></i>
-                                        {{ ucfirst($item->type) }}
+                                        <i class="bi {{ $icon }} me-1"></i>
+                                        {{ $label }}
                                     </span>
                                 </td>
 
                                 <td style="color: {{ $color }}">
-                                    {{ $isTopup ? '+' : '-' }}Rp {{ number_format($item->nominal, 0, ',', '.') }}
+                                    {{ $sign }}Rp {{ number_format($item->nominal) }}
                                 </td>
-
-                                <td>{{ ucwords($item->metode_pembayaran) }}</td>
-
                                 <td>
-                                    <span class="status-badge {{ $item->status == 1 ? 'success' : 'warning' }}">
-                                        {{ $item->status == 1 ? 'Terverifikasi' : 'Belum Terverifikasi' }}
-                                    </span>
+                                    {{ str_replace('_', ' ', ucwords($item->metode_pembayaran)) }}
+                                </td>
+                                <td>
+                                    @if ($item->status == 1)
+                                        <span class="status-badge success">Terverifikasi</span>
+                                    @else
+                                        <span class="status-badge warning">Menunggu</span>
+                                    @endif
                                 </td>
                             </tr>
                         @endforeach
@@ -259,7 +284,9 @@
 @push('script')
     <script>
         function confirmTopup() {
-            let amount = document.getElementById('qrisAmount').textContent;
+            // let amount = document.getElementById('qrisAmount').textContent;
+            let amount = parseInt(document.getElementById('topupAmount').value);
+
             fetch('/member/topup-saldo', {
                     method: 'POST',
                     headers: {

@@ -48,7 +48,7 @@
         <div class="dashboard-card">
             <div class="card-header">
                 <h5 class="card-title"><i class="bi bi-journal-text"></i> Semua Riwayat Modal</h5>
-                <span style="color: var(--text-muted);">Total: 8 Entri</span>
+                {{-- <span style="color: var(--text-muted);">Total: 8 Entri</span> --}}
             </div>
             <div class="table-responsive">
                 <table class="table-dark-custom">

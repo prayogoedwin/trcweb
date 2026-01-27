@@ -13,28 +13,16 @@ class SaldoService
      */
     public static function getSaldo(Member $member): float
     {
-        // total masuk
-        $topup = Wallet::where('member_id', $member->id)
-            ->where('type', 'topup')
+        $masuk = Wallet::where('member_id', $member->id)
             ->where('status', 1)
+            ->whereIn('type', ['topup', 'profit'])
             ->sum('nominal');
 
-        $profit = Wallet::where('member_id', $member->id)
-            ->where('type', 'profit')
+        $keluar = Wallet::where('member_id', $member->id)
             ->where('status', 1)
-            ->sum('nominal');
-
-        // total keluar
-        $withdraw = Wallet::where('member_id', $member->id)
             ->where('type', 'withdraw')
-            ->where('status', 1)
             ->sum('nominal');
 
-        // modal yang sedang dikunci
-        $modalAktif = Trade::where('member_id', $member->id)
-            ->where('status', 'active')
-            ->sum('modal');
-
-        return ($topup + $profit) - $withdraw - $modalAktif;
+        return $masuk - $keluar;
     }
 }

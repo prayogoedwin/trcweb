@@ -86,7 +86,7 @@
         <div class="dashboard-card">
             <div class="card-header">
                 <h5 class="card-title"><i class="bi bi-bar-chart"></i> Semua Riwayat Profit</h5>
-                <span style="color: var(--text-muted);">Total: 15 Entri</span>
+                <span style="color: var(--text-muted);">Total: {{ $listProfit->total() }} Entri</span>
             </div>
             <div class="table-responsive">
                 <table class="table-dark-custom">
@@ -120,23 +120,11 @@
 
             <!-- Pagination -->
             <div class="d-flex justify-content-between align-items-center mt-4">
-                <span style="color: var(--text-muted);">Menampilkan 1-8 dari 15</span>
-                <nav>
-                    <ul class="pagination mb-0" style="gap: 5px;">
-                        <li class="page-item disabled"><a class="page-link" href="#"
-                                style="background: var(--bg-tertiary); border-color: var(--border-color); color: var(--text-muted);">Prev</a>
-                        </li>
-                        <li class="page-item active"><a class="page-link" href="#"
-                                style="background: var(--gold); border-color: var(--gold); color: var(--bg-primary);">1</a>
-                        </li>
-                        <li class="page-item"><a class="page-link" href="#"
-                                style="background: var(--bg-tertiary); border-color: var(--border-color); color: var(--text-secondary);">2</a>
-                        </li>
-                        <li class="page-item"><a class="page-link" href="#"
-                                style="background: var(--bg-tertiary); border-color: var(--border-color); color: var(--text-secondary);">Next</a>
-                        </li>
-                    </ul>
-                </nav>
+                <span style="color: var(--text-muted);">
+                    Menampilkan {{ $listProfit->firstItem() }}-{{ $listProfit->lastItem() }}
+                    dari {{ $listProfit->total() }}
+                </span>
+                {{ $listProfit->links('vendor.pagination.custom') }}
             </div>
         </div>
     </main>

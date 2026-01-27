@@ -16,7 +16,9 @@ use Illuminate\Support\Facades\Hash;
 
 use App\Models\ProdukStokVarian;
 use App\Models\Produk;
+use App\Models\Trade;
 use App\Models\TradeProfit;
+use App\Models\Wallet;
 use App\Services\SaldoService;
 use App\Services\TradeService;
 use Carbon\Carbon;
@@ -36,7 +38,19 @@ class DashboardMember extends Controller
                     Carbon::now()->endOfWeek(),
                 ]
             )->sum('amount');
-            return view('member.index', compact('saldo', 'tradeAktif', 'totalProfit', 'week'));
+            $join = Auth::guard('member')->user()->created_at;
+            $join = Carbon::parse($join)->format('d F Y');
+            $totalTrade = Trade::where('member_id', Auth::guard('member')->user()->id)->count();
+            $lastTransaction = Wallet::where('member_id', Auth::guard('member')->user()->id)->orderBy('id', 'desc')->take(5)->get();
+            return view('member.index', compact(
+                'saldo',
+                'tradeAktif',
+                'totalProfit',
+                'week',
+                'join',
+                'totalTrade',
+                'lastTransaction'
+            ));
         }
         return redirect()->route('member.login')->with('error', 'Silakan login terlebih dahulu.');
     }

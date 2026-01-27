@@ -120,7 +120,7 @@
                 <div class="dashboard-card">
                     <div class="card-header">
                         <h5 class="card-title"><i class="bi bi-clock-history"></i> Transaksi Terakhir</h5>
-                        <a href="riwayat-saldo.html" class="auth-link">Lihat Semua</a>
+                        <a href="{{ route('member.riwayat-saldo') }}" class="auth-link">Lihat Semua</a>
                     </div>
                     <div class="table-responsive">
                         <table class="table-dark-custom">
@@ -133,34 +133,59 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>17 Jan 2024, 10:30</td>
-                                    <td><span style="color: var(--profit-green);"><i
-                                                class="bi bi-arrow-down-circle me-1"></i>Topup</span></td>
-                                    <td style="color: var(--profit-green);">+Rp 500.000</td>
-                                    <td><span class="status-badge success">Berhasil</span></td>
-                                </tr>
-                                <tr>
-                                    <td>15 Jan 2024, 14:15</td>
-                                    <td><span style="color: var(--gold);"><i
-                                                class="bi bi-arrow-up-circle me-1"></i>Trade</span></td>
-                                    <td style="color: var(--gold);">-Rp 200.000</td>
-                                    <td><span class="status-badge success">Berhasil</span></td>
-                                </tr>
-                                <tr>
-                                    <td>14 Jan 2024, 09:00</td>
-                                    <td><span style="color: var(--profit-green);"><i
-                                                class="bi bi-currency-dollar me-1"></i>Profit</span></td>
-                                    <td style="color: var(--profit-green);">+Rp 75.000</td>
-                                    <td><span class="status-badge success">Berhasil</span></td>
-                                </tr>
-                                <tr>
-                                    <td>12 Jan 2024, 16:45</td>
-                                    <td><span style="color: var(--loss-red);"><i
-                                                class="bi bi-arrow-up-circle me-1"></i>Withdraw</span></td>
-                                    <td style="color: var(--loss-red);">-Rp 300.000</td>
-                                    <td><span class="status-badge pending">Pending</span></td>
-                                </tr>
+                                @foreach ($lastTransaction as $item)
+                                    @php
+                                        $isTradeLock = $item->metode_pembayaran === 'trade_lock';
+
+                                        if ($isTradeLock) {
+                                            $label = 'Trade';
+                                            $color = 'var(--gold)';
+                                            $icon = 'bi-arrow-up-circle';
+                                            $sign = '-';
+                                        } elseif ($item->type === 'profit') {
+                                            $label = 'Profit';
+                                            $color = 'var(--profit-green)';
+                                            $icon = 'bi-arrow-down-circle';
+                                            $sign = '+';
+                                        } elseif ($item->type === 'topup') {
+                                            $label = 'Topup';
+                                            $color = 'var(--profit-green)';
+                                            $icon = 'bi-arrow-down-circle';
+                                            $sign = '+';
+                                        } else {
+                                            $label = 'Withdraw';
+                                            $color = 'var(--loss-red)';
+                                            $icon = 'bi-arrow-up-circle';
+                                            $sign = '-';
+                                        }
+                                    @endphp
+
+                                    <tr>
+                                        <td>
+                                            {{ $item->created_at->format('d-m-Y') }},
+                                            {{ $item->created_at->format('H:i') }}
+                                        </td>
+
+                                        <td>
+                                            <span style="color: {{ $color }}">
+                                                <i class="bi {{ $icon }} me-1"></i>
+                                                {{ $label }}
+                                            </span>
+                                        </td>
+
+                                        <td style="color: {{ $color }}">
+                                            {{ $sign }}Rp {{ number_format($item->nominal) }}
+                                        </td>
+
+                                        <td>
+                                            @if ($item->status == 1)
+                                                <span class="status-badge success">Terverifikasi</span>
+                                            @else
+                                                <span class="status-badge warning">Menunggu</span>
+                                            @endif
+                                        </td>
+                                    </tr>
+                                @endforeach
                             </tbody>
                         </table>
                     </div>
@@ -179,11 +204,11 @@
                     </div>
                     <div class="mb-3 p-3" style="background: var(--bg-tertiary); border-radius: 12px;">
                         <small style="color: var(--text-muted);">Bergabung Sejak</small>
-                        <div style="color: var(--text-primary);">10 Januari 2024</div>
+                        <div style="color: var(--text-primary);">{{ $join }}</div>
                     </div>
                     <div class="mb-3 p-3" style="background: var(--bg-tertiary); border-radius: 12px;">
                         <small style="color: var(--text-muted);">Total Trade</small>
-                        <div style="color: var(--gold); font-weight: 600;">15 Kali</div>
+                        <div style="color: var(--gold); font-weight: 600;">{{ $totalTrade }} Kali</div>
                     </div>
                     <div class="p-3" style="background: var(--bg-tertiary); border-radius: 12px;">
                         <small style="color: var(--text-muted);">Win Rate</small>
