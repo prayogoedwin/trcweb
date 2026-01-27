@@ -47,7 +47,7 @@ class ModalController extends Controller
 
     public function cancelModal(Trade $trade)
     {
-        if ($trade->member_id !== Auth::guard('member')->user()->id) {
+        if ((int) $trade->member_id !== (int) Auth::guard('member')->user()->id) {
             return response()->json([
                 'success' => false,
                 'message' => 'Akses ditolak'
