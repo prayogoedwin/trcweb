@@ -64,63 +64,60 @@ Route::middleware(CheckMaintenanceMode::class)->group(function () {
     // Route::get('/produk/{id}/varians', [DashboardMember::class, 'getVarians']);
     // Route::post('/cek-poin', [DashboardMember::class, 'cekPoin'])->name('cek-poin');
     Route::get('/', [PublikController::class, 'index'])->name('home');
+
+
+    // Login Member
+    Route::prefix('member')->group(function () {
+        Route::get('/login/{provider}', [SocialLoginController::class, 'redirectToProvider'])->name('member.social.login');
+
+        Route::get('/login/{provider}/callback', [SocialLoginController::class, 'handleProviderCallback'])->name('member.social.login.callback');
+
+        Route::get('/login', [MemberLoginController::class, 'showLoginForm'])->name('member.login');
+        Route::post('/login', [MemberLoginController::class, 'login'])->name('member.login.submit');
+
+        // Register Member
+        Route::get('/register', [MemberRegisterController::class, 'showRegisterForm'])->name('member.register');
+        Route::post('/register', [MemberRegisterController::class, 'register'])->name('member.register.submit');
+
+        // Forgot Password
+        Route::get('password/reset', [MemberForgotPasswordController::class, 'showLinkRequestForm'])->name('member.password.request');
+        Route::post('password/email', [MemberForgotPasswordController::class, 'sendResetLinkEmail'])->name('member.password.email');
+
+        // Reset Password
+        Route::get('password/reset/{token}', [MemberResetPasswordController::class, 'showResetForm'])->name('member.password.reset');
+        Route::post('password/reset', [MemberResetPasswordController::class, 'reset'])->name('member.password.update');
+
+        // Logout & Dashboard (dengan middleware)
+        Route::get('/logout', [MemberLoginController::class, 'logout'])->name('member.logout');
+
+        Route::middleware('auth:member')->group(function () {
+            Route::get('/dashboard', [DashboardMember::class, 'index'])->name('member.dashboard');
+            // Route::get('/profil', [DashboardMember::class, 'profilMember'])->name('member.profil');
+            // Route::post('/profil_update', [DashboardMember::class, 'updateProfil'])->name('member.profil_update');
+
+            Route::get('saldo', [SaldoController::class, 'index'])->name('member.saldo');
+            Route::post('topup-saldo', [SaldoController::class, 'topupSaldo'])->name('member.topup-saldo');
+            Route::post('withdraw-saldo', [SaldoController::class, 'withdrawSaldo'])->name('member.withdraw-saldo');
+
+            Route::get('modal', [ModalController::class, 'index'])->name('member.modal');
+            Route::post('topup-modal', [ModalController::class, 'store'])->name('member.topup-modal');
+            Route::post('cancel-modal/{trade}', [ModalController::class, 'cancelModal'])->name('member.cancel-modal');
+
+            Route::get('profit', [ProfitController::class, 'index'])->name('member.profit');
+            Route::get('riwayat-saldo', [RiwayatController::class, 'index'])->name('member.riwayat-saldo');
+            Route::get('riwayat-modal', [RiwayatController::class, 'riwayatModal'])->name('member.riwayat-modal');
+            Route::get('riwayat-profit', [RiwayatController::class, 'riwayatProfit'])->name('member.riwayat-profit');
+            Route::get('profile', [ProfileController::class, 'index'])->name('member.profile');
+            Route::post('profile-update', [ProfileController::class, 'updateProfil'])->name('member.profil-update');
+            Route::post('profile-update-password', [ProfileController::class, 'updatePassword'])->name('member.profil-update-password');
+            Route::post('bank', [ProfileController::class, 'addBank'])->name('member.bank');
+            Route::delete('bank/{bank}', [ProfileController::class, 'deleteBank'])->name('member.bank-delete');
+        });
+    });
 });
 
 Route::get('/maintenance', function () {
     return view('maintenance');
-});
-
-
-
-
-
-// Login Member
-Route::prefix('member')->group(function () {
-    Route::get('/login/{provider}', [SocialLoginController::class, 'redirectToProvider'])->name('member.social.login');
-
-    Route::get('/login/{provider}/callback', [SocialLoginController::class, 'handleProviderCallback'])->name('member.social.login.callback');
-
-    Route::get('/login', [MemberLoginController::class, 'showLoginForm'])->name('member.login');
-    Route::post('/login', [MemberLoginController::class, 'login'])->name('member.login.submit');
-
-    // Register Member
-    Route::get('/register', [MemberRegisterController::class, 'showRegisterForm'])->name('member.register');
-    Route::post('/register', [MemberRegisterController::class, 'register'])->name('member.register.submit');
-
-    // Forgot Password
-    Route::get('password/reset', [MemberForgotPasswordController::class, 'showLinkRequestForm'])->name('member.password.request');
-    Route::post('password/email', [MemberForgotPasswordController::class, 'sendResetLinkEmail'])->name('member.password.email');
-
-    // Reset Password
-    Route::get('password/reset/{token}', [MemberResetPasswordController::class, 'showResetForm'])->name('member.password.reset');
-    Route::post('password/reset', [MemberResetPasswordController::class, 'reset'])->name('member.password.update');
-
-    // Logout & Dashboard (dengan middleware)
-    Route::get('/logout', [MemberLoginController::class, 'logout'])->name('member.logout');
-
-    Route::middleware('auth:member')->group(function () {
-        Route::get('/dashboard', [DashboardMember::class, 'index'])->name('member.dashboard');
-        // Route::get('/profil', [DashboardMember::class, 'profilMember'])->name('member.profil');
-        // Route::post('/profil_update', [DashboardMember::class, 'updateProfil'])->name('member.profil_update');
-
-        Route::get('saldo', [SaldoController::class, 'index'])->name('member.saldo');
-        Route::post('topup-saldo', [SaldoController::class, 'topupSaldo'])->name('member.topup-saldo');
-        Route::post('withdraw-saldo', [SaldoController::class, 'withdrawSaldo'])->name('member.withdraw-saldo');
-
-        Route::get('modal', [ModalController::class, 'index'])->name('member.modal');
-        Route::post('topup-modal', [ModalController::class, 'store'])->name('member.topup-modal');
-        Route::post('cancel-modal/{trade}', [ModalController::class, 'cancelModal'])->name('member.cancel-modal');
-
-        Route::get('profit', [ProfitController::class, 'index'])->name('member.profit');
-        Route::get('riwayat-saldo', [RiwayatController::class, 'index'])->name('member.riwayat-saldo');
-        Route::get('riwayat-modal', [RiwayatController::class, 'riwayatModal'])->name('member.riwayat-modal');
-        Route::get('riwayat-profit', [RiwayatController::class, 'riwayatProfit'])->name('member.riwayat-profit');
-        Route::get('profile', [ProfileController::class, 'index'])->name('member.profile');
-        Route::post('profile-update', [ProfileController::class, 'updateProfil'])->name('member.profil-update');
-        Route::post('profile-update-password', [ProfileController::class, 'updatePassword'])->name('member.profil-update-password');
-        Route::post('bank', [ProfileController::class, 'addBank'])->name('member.bank');
-        Route::delete('bank/{bank}', [ProfileController::class, 'deleteBank'])->name('member.bank-delete');
-    });
 });
 
 // Route::get('/member/profile', [ProfileController::class, 'index'])
