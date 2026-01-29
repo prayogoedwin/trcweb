@@ -187,7 +187,7 @@
     <section class="section" id="layanan" style="background: var(--bg-secondary);">
         <div class="container">
             <h2 class="section-title">Layanan <span>Kami</span></h2>
-            <p class="section-subtitle">TRC menyediakan layanan EA Trading Forex serta program Titip Dana Trading</p>
+            <p class="section-subtitle">Trc menyediakan EA Trading Serta TRC Smart Trader Program</p>
 
             <div class="row g-4 justify-content-center">
                 <div class="col-lg-4 col-md-6">
@@ -205,9 +205,11 @@
                         <div class="feature-icon">
                             <i class="bi bi-wallet2"></i>
                         </div>
-                        <h3 class="feature-title">Titip Dana Trading</h3>
-                        <p class="feature-text">Program investasi dimana setiap anggota berkesempatan memperoleh hasil
-                            yang konsisten setiap minggu.</p>
+                        <h3 class="feature-title">TRC Smart Trader Program</h3>
+                        <p class="feature-text">TRC menyediakan software trading otomatis (Expert Advisor) yang
+                            membantu pengguna dalam melakukan transaksi forex secara sistematis dengan manajemen risiko
+                            terukur.
+                            Hasil trading tergantung kondisi market dan tidak ada Jaminan profit.</p>
                     </div>
                 </div>
                 <div class="col-lg-4 col-md-6">
@@ -308,8 +310,8 @@
                         </div>
                         <div class="why-content">
                             <h4>Transparan & Terpercaya</h4>
-                            <p>Perputaran dana dan hasil trading bersumber langsung dari aktivitas market Forex, bukan
-                                dari perputaran dana anggota.</p>
+                            <p>Seluruh transaksi dan hasil trading bersumber dari aktivitas market forex melalui sistem
+                                trading otomatis TRC.</p>
                         </div>
                     </div>
 
@@ -398,7 +400,8 @@
                 <p>&copy; 2024 Trader Rahman Community (TRC). All Rights Reserved.</p>
                 <p style="font-size: 0.85rem; margin-top: 10px;">
                     <i class="bi bi-exclamation-triangle me-1"></i>
-                    Trading forex melibatkan risiko tinggi. Pastikan Anda memahami risiko sebelum berinvestasi.
+                    Trading Forex melibatkan resiko tinggi, pastikan anda memahami resiko sebelum menggunakan Expert
+                    Advisor.
                 </p>
             </div>
         </div>
