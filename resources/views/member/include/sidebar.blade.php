@@ -17,11 +17,11 @@
         </a>
         <a href="{{ route('member.modal') }}" class="menu-item">
             <i class="bi bi-cash-stack"></i>
-            <span>Modal</span>
+            <span>Saldo Lisensi EA</span>
         </a>
         <a href="{{ route('member.profit') }}" class="menu-item">
             <i class="bi bi-graph-up-arrow"></i>
-            <span>Profit</span>
+            <span>Hasil Trading</span>
         </a>
 
         <div class="menu-label">Riwayat</div>
@@ -31,11 +31,11 @@
         </a>
         <a href="{{ route('member.riwayat-modal') }}" class="menu-item">
             <i class="bi bi-journal-text"></i>
-            <span>Riwayat Modal</span>
+            <span>Riwayat Saldo Lisensi EA</span>
         </a>
         <a href="{{ route('member.riwayat-profit') }}" class="menu-item">
             <i class="bi bi-bar-chart"></i>
-            <span>Riwayat Profit</span>
+            <span>Riwayat Hasil Trading</span>
         </a>
 
         <div class="menu-label">Akun</div>

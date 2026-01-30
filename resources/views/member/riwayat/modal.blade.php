@@ -6,7 +6,7 @@
                 <button class="mobile-menu-btn d-lg-none" onclick="toggleSidebar()">
                     <i class="bi bi-list"></i>
                 </button>
-                <h1 class="dashboard-title"><span>Riwayat</span> Modal</h1>
+                <h1 class="dashboard-title"><span>Riwayat</span> Saldo Lisensi EA</h1>
             </div>
             <div class="user-menu">
                 <div class="user-profile" style="display: flex; align-items: center; gap: 10px;">
@@ -24,14 +24,14 @@
             <div class="col-md-4">
                 <div class="stat-card">
                     <div class="stat-card-icon silver"><i class="bi bi-cash-stack"></i></div>
-                    <div class="stat-card-label">Total Modal Dimasukkan</div>
+                    <div class="stat-card-label">Total Saldo Lisensi EA Dimasukkan</div>
                     <div class="stat-card-value">Rp {{ number_format($totalModal, 0) }}</div>
                 </div>
             </div>
             <div class="col-md-4">
                 <div class="stat-card">
                     <div class="stat-card-icon gold"><i class="bi bi-play-circle"></i></div>
-                    <div class="stat-card-label">Modal Aktif</div>
+                    <div class="stat-card-label">Saldo Lisensi EA Aktif</div>
                     <div class="stat-card-value gold">Rp {{ number_format($tradeAktif, 0) }}</div>
                 </div>
             </div>
@@ -47,7 +47,7 @@
         <!-- History -->
         <div class="dashboard-card">
             <div class="card-header">
-                <h5 class="card-title"><i class="bi bi-journal-text"></i> Semua Riwayat Modal</h5>
+                <h5 class="card-title"><i class="bi bi-journal-text"></i> Semua Riwayat Saldo Lisensi EA</h5>
                 {{-- <span style="color: var(--text-muted);">Total: 8 Entri</span> --}}
             </div>
             <div class="table-responsive">

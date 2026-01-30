@@ -28,7 +28,7 @@
                         <div class="stat-card-icon silver"><i class="bi bi-cash-stack"></i></div>
                         <span class="stat-card-badge pending"><i class="bi bi-lock"></i> Terkunci</span>
                     </div>
-                    <div class="stat-card-label">Modal Trading Aktif</div>
+                    <div class="stat-card-label">Saldo Lisensi EA Aktif</div>
                     <div class="stat-card-value" style="font-size: 2.5rem;">Rp
                         {{ number_format($tradeAktif, 0) }}</div>
                     <p style="color: var(--text-muted); font-size: 0.9rem; margin-top: 10px;">
@@ -56,7 +56,7 @@
             <div class="col-12">
                 <div class="dashboard-card">
                     <h5 style="color: var(--gold); margin-bottom: 20px;"><i class="bi bi-lightbulb me-2"></i>Cara Kerja
-                        Modal Trading</h5>
+                        Saldo Lisensi EA</h5>
                     <div class="row g-3">
                         <div class="col-md-3">
                             <div class="text-center p-4"
@@ -175,7 +175,7 @@
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title"><i class="bi bi-graph-up me-2"></i>Masukkan Modal Trading</h5>
+                    <h5 class="modal-title"><i class="bi bi-graph-up me-2"></i>Masukkan Saldo Lisensi EA</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body">

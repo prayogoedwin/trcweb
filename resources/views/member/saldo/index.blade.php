@@ -32,7 +32,7 @@
                     <div class="stat-card-value gold" style="font-size: 2.5rem;">Rp {{ number_format($saldo, 0) }}</div>
                     <div class="mt-3 d-flex gap-2">
                         <button class="btn-green" data-bs-toggle="modal" data-bs-target="#topupModal">
-                            <i class="bi bi-plus-circle me-1"></i>Topup
+                            <i class="bi bi-plus-circle me-1"></i>Topup Lisensi
                         </button>
                         <button class="btn-silver" data-bs-toggle="modal" data-bs-target="#withdrawModal">
                             <i class="bi bi-cash-coin me-1"></i>Tarik Saldo
@@ -150,13 +150,13 @@
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title"><i class="bi bi-plus-circle me-2"></i>Topup Saldo</h5>
+                    <h5 class="modal-title"><i class="bi bi-plus-circle me-2"></i>Topup Lisensi Saldo</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body">
                     <div id="topupForm">
                         <div class="form-group">
-                            <label class="form-label">Nominal Topup</label>
+                            <label class="form-label">Nominal Topup Lisensi</label>
                             <div class="input-group">
                                 <span class="input-icon" style="left: 15px;">Rp</span>
                                 <input type="number" class="form-control" id="topupAmount" placeholder="Masukkan nominal"

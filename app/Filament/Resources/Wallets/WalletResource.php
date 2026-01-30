@@ -22,7 +22,8 @@ class WalletResource extends Resource
     protected static string | \UnitEnum | null $navigationGroup = 'Member';
 
     protected static ?string $recordTitleAttribute = 'Wallet';
-    protected static ?string $modelLabel = 'Topup/Withdraw';
+    protected static ?string $modelLabel = 'Topup Lisensi/Withdraw';
+    protected static ?string $pluralModelLabel = 'Topup Lisensi/Withdraw';
 
     public static function form(Schema $schema): Schema
     {

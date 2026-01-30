@@ -43,9 +43,10 @@
                         dashboard ini.</p>
                 </div>
                 <div class="d-flex gap-2">
-                    <a href="{{ route('member.saldo') }}" class="btn-green"><i class="bi bi-plus-circle me-1"></i>Topup</a>
+                    <a href="{{ route('member.saldo') }}" class="btn-green"><i class="bi bi-plus-circle me-1"></i>Topup
+                        Lisensi</a>
                     <a href="{{ route('member.modal') }}" class="btn-gold" style="padding: 12px 20px;"><i
-                            class="bi bi-graph-up me-1"></i>Trade</a>
+                            class="bi bi-graph-up me-1"></i>Sewa EA</a>
                 </div>
             </div>
         </div>
@@ -66,7 +67,7 @@
                     <div class="stat-card-icon silver"><i class="bi bi-cash-stack"></i></div>
                     <span class="stat-card-badge pending"><i class="bi bi-lock"></i> Terkunci</span>
                 </div>
-                <div class="stat-card-label">Modal Trading</div>
+                <div class="stat-card-label">Saldo Lisensi EA</div>
                 <div class="stat-card-value">Rp {{ number_format($tradeAktif, 0) }}</div>
             </div>
 
@@ -75,7 +76,7 @@
                     <div class="stat-card-icon green"><i class="bi bi-graph-up-arrow"></i></div>
                     <span class="stat-card-badge up"><i class="bi bi-arrow-up"></i> +12.5%</span>
                 </div>
-                <div class="stat-card-label">Total Profit</div>
+                <div class="stat-card-label">Total Hasil Trading</div>
                 <div class="stat-card-value green">Rp {{ number_format($totalProfit, 0) }}</div>
             </div>
 
@@ -83,7 +84,7 @@
                 <div class="stat-card-header">
                     <div class="stat-card-icon gold"><i class="bi bi-trophy"></i></div>
                 </div>
-                <div class="stat-card-label">Profit Minggu Ini</div>
+                <div class="stat-card-label">Hasil Trading Minggu Ini</div>
                 <div class="stat-card-value gold">Rp {{ number_format($week, 0) }}</div>
             </div>
         </div>
@@ -207,7 +208,7 @@
                         <div style="color: var(--text-primary);">{{ $join }}</div>
                     </div>
                     <div class="mb-3 p-3" style="background: var(--bg-tertiary); border-radius: 12px;">
-                        <small style="color: var(--text-muted);">Total Trade</small>
+                        <small style="color: var(--text-muted);">Total Sewa EA</small>
                         <div style="color: var(--gold); font-weight: 600;">{{ $totalTrade }} Kali</div>
                     </div>
                     <div class="p-3" style="background: var(--bg-tertiary); border-radius: 12px;">

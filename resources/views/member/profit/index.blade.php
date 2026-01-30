@@ -6,7 +6,7 @@
                 <button class="mobile-menu-btn d-lg-none" onclick="toggleSidebar()">
                     <i class="bi bi-list"></i>
                 </button>
-                <h1 class="dashboard-title"><span>Profit</span> Trading</h1>
+                <h1 class="dashboard-title"><span>Hasil</span> Trading</h1>
             </div>
             <div class="user-menu">
                 <div class="user-profile" style="display: flex; align-items: center; gap: 10px;">
@@ -28,7 +28,7 @@
                         <div class="stat-card-icon green"><i class="bi bi-graph-up-arrow"></i></div>
                         {{-- <span class="stat-card-badge up"><i class="bi bi-arrow-up"></i> +12.5%</span> --}}
                     </div>
-                    <div class="stat-card-label">Total Profit</div>
+                    <div class="stat-card-label">Total Hasil Trading</div>
                     <div class="stat-card-value green" style="font-size: 2.2rem;">Rp. {{ number_format($totalProfit, 0) }}
                     </div>
                     {{-- <button class="btn-green mt-3" data-bs-toggle="modal" data-bs-target="#withdrawProfitModal">
@@ -42,11 +42,11 @@
                     <div class="stat-card-header">
                         <div class="stat-card-icon gold"><i class="bi bi-calendar-week"></i></div>
                     </div>
-                    <div class="stat-card-label">Profit Minggu Ini</div>
+                    <div class="stat-card-label">Hasil Trading Minggu Ini</div>
                     <div class="stat-card-value gold" style="font-size: 2rem;">Rp {{ number_format($week, 0) }}</div>
-                    <p style="color: var(--text-muted); font-size: 0.85rem; margin-top: 10px;">
+                    {{-- <p style="color: var(--text-muted); font-size: 0.85rem; margin-top: 10px;">
                         <i class="bi bi-clock me-1"></i>Update terakhir: 17 Jan 2024
-                    </p>
+                    </p> --}}
                 </div>
             </div>
 
@@ -55,11 +55,11 @@
                     <div class="stat-card-header">
                         <div class="stat-card-icon silver"><i class="bi bi-cash-stack"></i></div>
                     </div>
-                    <div class="stat-card-label">Modal Aktif</div>
+                    <div class="stat-card-label">Saldo Lisensi EA Aktif</div>
                     <div class="stat-card-value" style="font-size: 2rem;">Rp {{ number_format($active, 0) }}</div>
-                    <p style="color: var(--text-muted); font-size: 0.85rem; margin-top: 10px;">
+                    {{-- <p style="color: var(--text-muted); font-size: 0.85rem; margin-top: 10px;">
                         <i class="bi bi-percent me-1"></i>ROI: 75%
-                    </p>
+                    </p> --}}
                 </div>
             </div>
         </div>
@@ -69,13 +69,13 @@
             <div class="col-lg-8">
                 <div class="dashboard-card">
                     <h5 style="color: var(--gold); margin-bottom: 25px;"><i class="bi bi-bar-chart-line me-2"></i>Statistik
-                        Profit</h5>
+                        Hasil Trading</h5>
                     <div class="row g-3">
                         <div class="col-md-6">
                             <div class="p-3" style="background: var(--bg-tertiary); border-radius: 12px;">
                                 <div class="d-flex justify-content-between align-items-center mb-2">
-                                    <span style="color: var(--text-muted);">Profit Bulan Ini</span>
-                                    <span class="stat-card-badge up"><i class="bi bi-arrow-up"></i> +18%</span>
+                                    <span style="color: var(--text-muted);">Hasil Trading Bulan Ini</span>
+                                    {{-- <span class="stat-card-badge up"><i class="bi bi-arrow-up"></i> +18%</span> --}}
                                 </div>
                                 <div
                                     style="color: var(--profit-green); font-family: 'Orbitron', sans-serif; font-size: 1.5rem;">
@@ -94,7 +94,7 @@
                         <div class="col-md-6">
                             <div class="p-3" style="background: var(--bg-tertiary); border-radius: 12px;">
                                 <div class="d-flex justify-content-between align-items-center mb-2">
-                                    <span style="color: var(--text-muted);">Rata-rata Profit/Minggu</span>
+                                    <span style="color: var(--text-muted);">Rata-rata Hasil Trading/Minggu</span>
                                 </div>
                                 <div style="color: var(--gold); font-family: 'Orbitron', sans-serif; font-size: 1.5rem;">Rp
                                     112.500</div>
@@ -103,7 +103,7 @@
                         <div class="col-md-6">
                             <div class="p-3" style="background: var(--bg-tertiary); border-radius: 12px;">
                                 <div class="d-flex justify-content-between align-items-center mb-2">
-                                    <span style="color: var(--text-muted);">Total Trade</span>
+                                    <span style="color: var(--text-muted);">Total Sewa EA</span>
                                 </div>
                                 <div
                                     style="color: var(--text-primary); font-family: 'Orbitron', sans-serif; font-size: 1.5rem;">
@@ -147,7 +147,7 @@
         <div class="dashboard-card">
             <div class="card-header">
                 <h5 class="card-title"><i class="bi bi-clock-history"></i> Riwayat Profit</h5>
-                <a href="riwayat-profit.html" class="auth-link">Lihat Semua</a>
+                <a href="{{ route('member.riwayat-profit') }}" class="auth-link">Lihat Semua</a>
             </div>
             <div class="table-responsive">
                 <table class="table-dark-custom">

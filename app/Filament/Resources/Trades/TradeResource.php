@@ -21,6 +21,8 @@ class TradeResource extends Resource
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
     protected static string | \UnitEnum | null $navigationGroup = 'Trade';
     protected static ?string $recordTitleAttribute = 'Trade';
+    protected static ?string $modelLabel = 'Sewa EA';
+    protected static ?string $pluralModelLabel = 'Sewa EA';
 
     public static function form(Schema $schema): Schema
     {

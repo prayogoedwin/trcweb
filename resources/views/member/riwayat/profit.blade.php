@@ -6,7 +6,7 @@
                 <button class="mobile-menu-btn d-lg-none" onclick="toggleSidebar()">
                     <i class="bi bi-list"></i>
                 </button>
-                <h1 class="dashboard-title"><span>Riwayat</span> Profit</h1>
+                <h1 class="dashboard-title"><span>Riwayat</span> Hasil Trading</h1>
             </div>
             <div class="user-menu">
                 <div class="user-profile" style="display: flex; align-items: center; gap: 10px;">
@@ -24,14 +24,14 @@
             <div class="col-md-3">
                 <div class="stat-card">
                     <div class="stat-card-icon green"><i class="bi bi-graph-up-arrow"></i></div>
-                    <div class="stat-card-label">Total Profit</div>
+                    <div class="stat-card-label">Total Hasil Trading</div>
                     <div class="stat-card-value green">Rp {{ number_format($totalProfit, 0) }}</div>
                 </div>
             </div>
             <div class="col-md-3">
                 <div class="stat-card">
                     <div class="stat-card-icon gold"><i class="bi bi-calendar-week"></i></div>
-                    <div class="stat-card-label">Profit Bulan Ini</div>
+                    <div class="stat-card-label">Hasil Trading Bulan Ini</div>
                     <div class="stat-card-value gold">Rp {{ number_format($month, 0) }}</div>
                 </div>
             </div>
@@ -58,7 +58,7 @@
                     <label class="form-label">Tipe</label>
                     <select class="form-control">
                         <option value="">Semua</option>
-                        <option value="profit">Profit Masuk</option>
+                        <option value="profit">Hasil Trading Masuk</option>
                         <option value="withdraw">Penarikan</option>
                     </select>
                 </div>
@@ -85,7 +85,7 @@
         <!-- History -->
         <div class="dashboard-card">
             <div class="card-header">
-                <h5 class="card-title"><i class="bi bi-bar-chart"></i> Semua Riwayat Profit</h5>
+                <h5 class="card-title"><i class="bi bi-bar-chart"></i> Semua Riwayat Hasil Trading</h5>
                 <span style="color: var(--text-muted);">Total: {{ $listProfit->total() }} Entri</span>
             </div>
             <div class="table-responsive">
