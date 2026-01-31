@@ -39,8 +39,7 @@
                 <div>
                     <h3 style="color: var(--gold); margin-bottom: 5px;"><i class="bi bi-stars me-2"></i>Selamat
                         Datang, {{ ucfirst(Auth::guard('member')->user()->name) }}!</h3>
-                    <p style="color: var(--text-secondary); margin: 0;">Pantau trading dan profit Anda dari
-                        dashboard ini.</p>
+                    <p style="color: var(--text-secondary); margin: 0;">Pantau hasil kinerja EA anda dari dashboard ini.</p>
                 </div>
                 <div class="d-flex gap-2">
                     <a href="{{ route('member.saldo') }}" class="btn-green"><i class="bi bi-plus-circle me-1"></i>Topup
@@ -95,17 +94,17 @@
         <div class="quick-actions">
             <a href="{{ route('member.saldo') }}" class="action-card">
                 <div class="action-icon topup"><i class="bi bi-plus-circle"></i></div>
-                <div class="action-title">Topup Saldo</div>
+                <div class="action-title">Topup Lisensi</div>
                 <div class="action-desc">Isi saldo akun Anda</div>
             </a>
             <a href="{{ route('member.modal') }}" class="action-card">
                 <div class="action-icon trade"><i class="bi bi-graph-up"></i></div>
-                <div class="action-title">Masukkan Modal</div>
+                <div class="action-title">Masukkan Saldo Lisensi EA</div>
                 <div class="action-desc">Mulai trading sekarang</div>
             </a>
             <a href="{{ route('member.saldo') }}" class="action-card">
                 <div class="action-icon withdraw"><i class="bi bi-cash-coin"></i></div>
-                <div class="action-title">Tarik Saldo</div>
+                <div class="action-title">Tarik Lisensi EA</div>
                 <div class="action-desc">Withdraw ke rekening</div>
             </a>
             {{-- <a href="profit.html#withdraw" class="action-card">

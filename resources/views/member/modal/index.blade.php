@@ -6,7 +6,7 @@
                 <button class="mobile-menu-btn d-lg-none" onclick="toggleSidebar()">
                     <i class="bi bi-list"></i>
                 </button>
-                <h1 class="dashboard-title"><span>Modal</span> Trading</h1>
+                <h1 class="dashboard-title"><span>Saldo</span> Lisensi EA</h1>
             </div>
             <div class="user-menu">
                 <div class="user-profile" style="display: flex; align-items: center; gap: 10px;">
@@ -45,7 +45,7 @@
                     <div class="stat-card-label">Saldo Tersedia untuk Trading</div>
                     <div class="stat-card-value gold" style="font-size: 2rem;">Rp {{ number_format($saldo, 0) }}</div>
                     <button class="btn-gold mt-3" data-bs-toggle="modal" data-bs-target="#tradeModal">
-                        <i class="bi bi-graph-up me-2"></i>Masukkan Modal Baru
+                        <i class="bi bi-graph-up me-2"></i>Masukkan Saldo Akun
                     </button>
                 </div>
             </div>
@@ -64,7 +64,7 @@
                                 <div
                                     style="width: 50px; height: 50px; background: var(--gradient-gold); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 15px; font-weight: 700; color: var(--bg-primary);">
                                     1</div>
-                                <h6 style="color: var(--gold);">Masukkan Modal</h6>
+                                <h6 style="color: var(--gold);">Masukkan Saldo Akun</h6>
                                 <p style="color: var(--text-muted); font-size: 0.9rem; margin: 0;">Pilih nominal modal dari
                                     saldo akun Anda</p>
                             </div>
@@ -86,7 +86,7 @@
                                 <div
                                     style="width: 50px; height: 50px; background: var(--gradient-gold); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 15px; font-weight: 700; color: var(--bg-primary);">
                                     3</div>
-                                <h6 style="color: var(--gold);">Profit Mingguan</h6>
+                                <h6 style="color: var(--gold);">Hasil Trading Harian</h6>
                                 <p style="color: var(--text-muted); font-size: 0.9rem; margin: 0;">Hasil trading masuk ke
                                     profit Anda setiap minggu</p>
                             </div>
@@ -97,8 +97,9 @@
                                 <div
                                     style="width: 50px; height: 50px; background: var(--gradient-gold); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 15px; font-weight: 700; color: var(--bg-primary);">
                                     4</div>
-                                <h6 style="color: var(--gold);">Tarik Profit</h6>
-                                <p style="color: var(--text-muted); font-size: 0.9rem; margin: 0;">Profit dapat ditarik
+                                <h6 style="color: var(--gold);">Tarik Hasil Trading</h6>
+                                <p style="color: var(--text-muted); font-size: 0.9rem; margin: 0;">Hasil Trading dapat
+                                    ditarik
                                     kapan saja ke rekening Anda</p>
                             </div>
                         </div>
@@ -110,7 +111,7 @@
         <!-- Modal History -->
         <div class="dashboard-card">
             <div class="card-header">
-                <h5 class="card-title"><i class="bi bi-journal-text"></i> Riwayat Modal</h5>
+                <h5 class="card-title"><i class="bi bi-journal-text"></i> Riwayat Saldo Lisensi</h5>
                 <a href="riwayat-modal.html" class="auth-link">Lihat Semua</a>
             </div>
             <div class="table-responsive">
