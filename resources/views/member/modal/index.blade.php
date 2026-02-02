@@ -122,7 +122,7 @@
                             <th>Nominal Modal</th>
                             {{-- <th>Periode</th> --}}
                             <th>Status</th>
-                            <th>Aksi</th>
+                            {{-- <th>Aksi</th> --}}
                         </tr>
                     </thead>
                     <tbody>
@@ -154,7 +154,7 @@
                                         </span>
                                     @endif
                                 </td>
-                                <td>
+                                {{-- <td>
                                     @if ($item->status === 'active')
                                         <button class="status-badge info btn-cancel-trade" data-id="{{ $item->id }}"
                                             style="border: none; background: transparent; font-color: white;">
@@ -162,7 +162,7 @@
                                             Batalkan Trading
                                         </button>
                                     @endif
-                                </td>
+                                </td> --}}
                             </tr>
                         @endforeach
                     </tbody>

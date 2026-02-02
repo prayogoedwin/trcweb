@@ -100,8 +100,7 @@
                 style="background: rgba(212, 175, 55, 0.1); border: 1px solid var(--border-color); border-radius: 12px;">
                 <p style="color: var(--text-secondary); margin: 0;">
                     <i class="bi bi-info-circle me-2" style="color: var(--gold);"></i>
-                    <strong>Catatan:</strong> Modal yang berstatus "Aktif" sedang dalam periode trading dan tidak dapat
-                    ditarik. Modal akan kembali setelah periode trading selesai.
+                    <strong>Catatan:</strong> Saldo Lisensi tidak dapat di tarik Selama Proses trading berlangsung.
                 </p>
             </div>
         </div>

@@ -17,22 +17,29 @@ use Illuminate\Support\Facades\Schedule;
 // })->everyMinute();
 
 Schedule::call(function () {
-    // skip weekend
-    if (now()->isWeekend()) {
+
+    $now = now();
+
+    // 1️⃣ hanya Senin (1) & Jumat (5)
+    if (!in_array($now->dayOfWeekIso, [1, 5])) {
         return;
     }
 
+    // 2️⃣ ambil config
     $config = TradeConfig::first();
     if (!$config || !$config->profit_time) {
         return;
     }
 
-    $now = now();
-
+    // 3️⃣ cek jam profit
     $profitTime = Carbon\Carbon::createFromFormat(
         'H:i:s',
         $config->profit_time,
         config('app.timezone')
+    )->setDate(
+        $now->year,
+        $now->month,
+        $now->day
     );
 
     if (!$now->between(
@@ -42,17 +49,61 @@ Schedule::call(function () {
         return;
     }
 
-    $today = now()->toDateString();
+    // 4️⃣ cegah double run hari yg sama
+    $cacheKey = 'profit_ran_' . $now->toDateString();
 
-    if (cache()->get('profit_ran_' . $today)) {
+    if (cache()->has($cacheKey)) {
         return;
     }
 
+    // 5️⃣ jalankan profit
     TradeService::processDailyProfit();
 
+    // 6️⃣ tandai sudah jalan hari ini
     cache()->put(
-        'profit_ran_' . $today,
+        $cacheKey,
         true,
-        now()->endOfDay()
+        $now->endOfDay()
     );
 })->everyMinute();
+
+// Schedule::call(function () {
+//     // skip weekend
+//     if (now()->isWeekend()) {
+//         return;
+//     }
+
+//     $config = TradeConfig::first();
+//     if (!$config || !$config->profit_time) {
+//         return;
+//     }
+
+//     $now = now();
+
+//     $profitTime = Carbon\Carbon::createFromFormat(
+//         'H:i:s',
+//         $config->profit_time,
+//         config('app.timezone')
+//     );
+
+//     if (!$now->between(
+//         $profitTime->copy()->startOfMinute(),
+//         $profitTime->copy()->endOfMinute()
+//     )) {
+//         return;
+//     }
+
+//     $today = now()->toDateString();
+
+//     if (cache()->get('profit_ran_' . $today)) {
+//         return;
+//     }
+
+//     TradeService::processDailyProfit();
+
+//     cache()->put(
+//         'profit_ran_' . $today,
+//         true,
+//         now()->endOfDay()
+//     );
+// })->everyMinute();
