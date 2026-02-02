@@ -22,8 +22,29 @@ class ProfitController extends Controller
                 Carbon::now()->endOfWeek(),
             ]
         )->sum('amount');
+        $month = TradeProfit::where('member_id', Auth::guard('member')->user()->id)->whereBetween(
+            'profit_date',
+            [
+                Carbon::now()->startOfMonth(),
+                Carbon::now()->endOfMonth(),
+            ]
+        )->sum('amount');
+        $weeklyProfits = TradeProfit::where('member_id', Auth::guard('member')->user()->id)
+            ->whereBetween('profit_date', [
+                Carbon::now()->startOfMonth(),
+                Carbon::now()->endOfMonth(),
+            ])
+            ->selectRaw('
+                YEAR(profit_date) as year,
+                WEEK(profit_date, 1) as week,
+                SUM(amount) as total
+            ')
+            ->groupBy('year', 'week')
+            ->get();
+        $avgWeeklyProfit = $weeklyProfits->isEmpty() ? 0 : $weeklyProfits->avg('total');
         $active = Trade::where('member_id', Auth::guard('member')->user()->id)->where('status', 'active')->sum('modal');
         $rows = TradeService::weeklyReportByUser(Auth::guard('member')->user()->id);
-        return view('member.profit.index', compact('totalProfit', 'week', 'active', 'rows'));
+        $totalSewa = Trade::where('member_id', Auth::guard('member')->user()->id)->count();
+        return view('member.profit.index', compact('totalProfit', 'week', 'active', 'rows', 'month', 'avgWeeklyProfit', 'totalSewa'));
     }
 }

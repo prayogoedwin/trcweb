@@ -79,10 +79,10 @@
                                 </div>
                                 <div
                                     style="color: var(--profit-green); font-family: 'Orbitron', sans-serif; font-size: 1.5rem;">
-                                    Rp 450.000</div>
+                                    Rp {{ number_format($month, 0) }}</div>
                             </div>
                         </div>
-                        <div class="col-md-6">
+                        {{-- <div class="col-md-6">
                             <div class="p-3" style="background: var(--bg-tertiary); border-radius: 12px;">
                                 <div class="d-flex justify-content-between align-items-center mb-2">
                                     <span style="color: var(--text-muted);">Total Ditarik</span>
@@ -90,14 +90,14 @@
                                 <div style="color: var(--silver); font-family: 'Orbitron', sans-serif; font-size: 1.5rem;">
                                     Rp 300.000</div>
                             </div>
-                        </div>
+                        </div> --}}
                         <div class="col-md-6">
                             <div class="p-3" style="background: var(--bg-tertiary); border-radius: 12px;">
                                 <div class="d-flex justify-content-between align-items-center mb-2">
                                     <span style="color: var(--text-muted);">Rata-rata Hasil Trading/Minggu</span>
                                 </div>
                                 <div style="color: var(--gold); font-family: 'Orbitron', sans-serif; font-size: 1.5rem;">Rp
-                                    112.500</div>
+                                    {{ number_format($avgWeeklyProfit, 0) }}</div>
                             </div>
                         </div>
                         <div class="col-md-6">
@@ -107,7 +107,7 @@
                                 </div>
                                 <div
                                     style="color: var(--text-primary); font-family: 'Orbitron', sans-serif; font-size: 1.5rem;">
-                                    47 Trade</div>
+                                    {{ $totalSewa }} Trade</div>
                             </div>
                         </div>
                     </div>
