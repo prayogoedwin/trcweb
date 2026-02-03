@@ -73,9 +73,9 @@
             <div class="stat-card">
                 <div class="stat-card-header">
                     <div class="stat-card-icon green"><i class="bi bi-graph-up-arrow"></i></div>
-                    <span class="stat-card-badge up"><i class="bi bi-arrow-up"></i> +12.5%</span>
+                    {{-- <span class="stat-card-badge up"><i class="bi bi-arrow-up"></i> +12.5%</span> --}}
                 </div>
-                <div class="stat-card-label">Total Hasil Trading</div>
+                <div class="stat-card-label">Total Imbal Hasil Sewa</div>
                 <div class="stat-card-value green">Rp {{ number_format($totalProfit, 0) }}</div>
             </div>
 
@@ -83,7 +83,7 @@
                 <div class="stat-card-header">
                     <div class="stat-card-icon gold"><i class="bi bi-trophy"></i></div>
                 </div>
-                <div class="stat-card-label">Hasil Trading Minggu Ini</div>
+                <div class="stat-card-label">Hasil Sewa Minggu Ini</div>
                 <div class="stat-card-value gold">Rp {{ number_format($week, 0) }}</div>
             </div>
         </div>
@@ -100,12 +100,12 @@
             <a href="{{ route('member.modal') }}" class="action-card">
                 <div class="action-icon trade"><i class="bi bi-graph-up"></i></div>
                 <div class="action-title">Masukkan Saldo Lisensi EA</div>
-                <div class="action-desc">Mulai trading sekarang</div>
+                <div class="action-desc">Mulai Sewa Sekarang</div>
             </a>
             <a href="{{ route('member.saldo') }}" class="action-card">
                 <div class="action-icon withdraw"><i class="bi bi-cash-coin"></i></div>
                 <div class="action-title">Tarik Lisensi EA</div>
-                <div class="action-desc">Withdraw ke rekening</div>
+                <div class="action-desc">Tarik Imbal Hasil Sewa</div>
             </a>
             {{-- <a href="profit.html#withdraw" class="action-card">
                 <div class="action-icon topup"><i class="bi bi-currency-dollar"></i></div>

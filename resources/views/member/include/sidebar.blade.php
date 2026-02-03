@@ -21,7 +21,7 @@
         </a>
         <a href="{{ route('member.profit') }}" class="menu-item">
             <i class="bi bi-graph-up-arrow"></i>
-            <span>Hasil Trading</span>
+            <span>Hasil Sewa</span>
         </a>
 
         <div class="menu-label">Riwayat</div>
@@ -35,7 +35,7 @@
         </a>
         <a href="{{ route('member.riwayat-profit') }}" class="menu-item">
             <i class="bi bi-bar-chart"></i>
-            <span>Riwayat Hasil Trading</span>
+            <span>Riwayat Imbal Hasil Sewa</span>
         </a>
 
         <div class="menu-label">Akun</div>

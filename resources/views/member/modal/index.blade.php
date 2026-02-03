@@ -32,7 +32,7 @@
                     <div class="stat-card-value" style="font-size: 2.5rem;">Rp
                         {{ number_format($tradeAktif, 0) }}</div>
                     <p style="color: var(--text-muted); font-size: 0.9rem; margin-top: 10px;">
-                        <i class="bi bi-info-circle me-1"></i>Modal tidak dapat ditarik selama periode trading berlangsung.
+                        <i class="bi bi-info-circle me-1"></i>Modal tidak dapat ditarik selama periode sewa berlangsung.
                     </p>
                 </div>
             </div>
@@ -42,7 +42,7 @@
                     <div class="stat-card-header">
                         <div class="stat-card-icon gold"><i class="bi bi-wallet2"></i></div>
                     </div>
-                    <div class="stat-card-label">Saldo Tersedia untuk Trading</div>
+                    <div class="stat-card-label">Saldo Tersedia Untuk Sewa</div>
                     <div class="stat-card-value gold" style="font-size: 2rem;">Rp {{ number_format($saldo, 0) }}</div>
                     <button class="btn-gold mt-3" data-bs-toggle="modal" data-bs-target="#tradeModal">
                         <i class="bi bi-graph-up me-2"></i>Masukkan Saldo Akun
@@ -76,7 +76,7 @@
                                     style="width: 50px; height: 50px; background: var(--gradient-gold); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 15px; font-weight: 700; color: var(--bg-primary);">
                                     2</div>
                                 <h6 style="color: var(--gold);">EA Bekerja</h6>
-                                <p style="color: var(--text-muted); font-size: 0.9rem; margin: 0;">Expert Advisor trading
+                                <p style="color: var(--text-muted); font-size: 0.9rem; margin: 0;">Expert Advisor Sewa
                                     otomatis di XAUUSD</p>
                             </div>
                         </div>
@@ -86,8 +86,8 @@
                                 <div
                                     style="width: 50px; height: 50px; background: var(--gradient-gold); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 15px; font-weight: 700; color: var(--bg-primary);">
                                     3</div>
-                                <h6 style="color: var(--gold);">Hasil Trading Harian</h6>
-                                <p style="color: var(--text-muted); font-size: 0.9rem; margin: 0;">Hasil trading masuk ke
+                                <h6 style="color: var(--gold);">Hasil Sewa Harian</h6>
+                                <p style="color: var(--text-muted); font-size: 0.9rem; margin: 0;">Hasil sewa masuk ke
                                     profit Anda setiap minggu</p>
                             </div>
                         </div>
@@ -97,8 +97,8 @@
                                 <div
                                     style="width: 50px; height: 50px; background: var(--gradient-gold); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 15px; font-weight: 700; color: var(--bg-primary);">
                                     4</div>
-                                <h6 style="color: var(--gold);">Tarik Hasil Trading</h6>
-                                <p style="color: var(--text-muted); font-size: 0.9rem; margin: 0;">Hasil Trading dapat
+                                <h6 style="color: var(--gold);">Tarik Imbal Hasil Sewa</h6>
+                                <p style="color: var(--text-muted); font-size: 0.9rem; margin: 0;">Imbal hasil sewa dapat
                                     ditarik
                                     kapan saja ke rekening Anda</p>
                             </div>
@@ -135,17 +135,17 @@
                                     @if ($item->status === 'active')
                                         <span class="status-badge success">
                                             <i class="bi bi-play-circle me-1"></i>
-                                            Aktif Trading
+                                            Sewa Aktif
                                         </span>
                                     @elseif ($item->status === 'cancelled')
                                         <span class="status-badge danger">
                                             <i class="bi bi-x-circle me-1"></i>
-                                            Trading Dibatalkan
+                                            Sewa Dibatalkan
                                         </span>
                                     @elseif ($item->status === 'completed')
                                         <span class="status-badge info">
                                             <i class="bi bi-check-circle me-1"></i>
-                                            Trading Selesai
+                                            Sewa Selesai
                                         </span>
                                     @else
                                         <span class="status-badge secondary">
@@ -220,12 +220,12 @@
                                 class="bi bi-exclamation-triangle me-1"></i>Perhatian!</small>
                         <p style="color: var(--text-secondary); font-size: 0.9rem; margin: 5px 0 0;">
                             Modal yang sudah dimasukkan <strong style="color: var(--loss-red);">tidak dapat
-                                ditarik</strong> selama periode trading berlangsung. Pastikan Anda memahami risiko trading.
+                                ditarik</strong> selama periode sewa berlangsung. Pastikan Anda memahami risiko sewa.
                         </p>
                     </div>
 
                     <button type="button" class="btn-gold w-100" onclick="processTrade()">
-                        <i class="bi bi-check-circle me-2"></i>Konfirmasi Trade
+                        <i class="bi bi-check-circle me-2"></i>Konfirmasi Sewa
                     </button>
                 </div>
             </div>
