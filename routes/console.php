@@ -21,7 +21,10 @@ Schedule::call(function () {
     $now = now();
 
     // 1️⃣ hanya Senin (1) & Jumat (5)
-    if (!in_array($now->dayOfWeekIso, [1, 5])) {
+    // if (!in_array($now->dayOfWeekIso, [1, 5])) {
+    //     return;
+    // }
+    if (now()->isWeekend()) {
         return;
     }
 
