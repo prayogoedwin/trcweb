@@ -17,10 +17,12 @@ class TradeService
     /**
      * Trade Aktif
      */
-    public static function getTradeAktif(Member $member): float
+    public static function getTradeAktif(?Member $member = null): float
     {
-        return Trade::where('member_id', $member->id)
-            ->where('status', 'active')
+        return Trade::where('status', 'active')
+            ->when($member, function ($query) use ($member) {
+                $query->where('member_id', $member->id);
+            })
             ->sum('modal');
     }
 
