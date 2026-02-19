@@ -10,7 +10,7 @@
             </div>
             <div class="user-menu">
                 <div class="user-profile" style="display: flex; align-items: center; gap: 10px;">
-                    <div class="user-avatar">AR</div>
+                    <div class="user-avatar">{{ Auth::guard('member')->user()->alias }}</div>
                     <div class="user-info d-none d-sm-block">
                         <div class="user-name">{{ ucwords($data->name) }}</div>
                         <div class="user-role">Member</div>

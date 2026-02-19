@@ -112,4 +112,16 @@ class Member extends Model implements Authenticatable
     {
         return $this->hasMany(Trade::class, 'member_id');
     }
+
+    public function getAliasAttribute()
+    {
+        $names = explode(' ', trim($this->name));
+        $initials = '';
+
+        foreach ($names as $name) {
+            $initials .= strtoupper(substr($name, 0, 1));
+        }
+
+        return $initials;
+    }
 }

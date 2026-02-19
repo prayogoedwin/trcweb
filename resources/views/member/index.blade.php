@@ -12,7 +12,7 @@
             <div class="user-menu">
                 <div class="user-profile dropdown">
                     <div data-bs-toggle="dropdown" style="display: flex; align-items: center; gap: 10px; cursor: pointer;">
-                        <div class="user-avatar">AR</div>
+                        <div class="user-avatar">{{ Auth::guard('member')->user()->alias }}</div>
                         <div class="user-info d-none d-sm-block">
                             <div class="user-name">{{ ucfirst(Auth::guard('member')->user()->name) }}</div>
                             <div class="user-role">Member</div>
