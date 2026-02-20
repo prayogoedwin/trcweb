@@ -106,7 +106,7 @@ class SaldoController extends Controller
             'bank_id' => 'required',
         ]);
         try {
-            $sisaSaldo = $this->cekSaldo();
+            $sisaSaldo = SaldoService::getSaldo(Auth::guard('member')->user());
             if ($sisaSaldo < $request->amount) {
                 return response()->json([
                     'success' => false,
