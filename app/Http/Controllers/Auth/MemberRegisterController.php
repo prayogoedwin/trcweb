@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Member;
 use App\Models\Referal;
+use App\Models\TradeProfit;
 use App\Models\Wallet;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
@@ -77,10 +78,13 @@ class MemberRegisterController extends Controller
             ]);
 
             if ($referrer) {
-                $reward = Referal::first();
+                // $reward = Referal::first();
+                $totalProfit = TradeProfit::where('member_id', $referrer->id)->sum('amount');
+                // 10% from total profit
+                $reward = $totalProfit * 0.1;
                 $wallet = Wallet::create([
                     'member_id' => $referrer->id,
-                    'nominal' => $reward->nominal,
+                    'nominal' => $reward,
                     'type' => 'topup',
                     'metode_pembayaran' => 'referal',
                     'status' => 1
