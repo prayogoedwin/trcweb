@@ -119,7 +119,9 @@ class TradeService
                 continue;
             }
 
-            $profit = $trade->modal * ($trade->profit_percent / 100);
+            $config = TradeConfig::where('is_active', true)->firstOrFail();
+
+            $profit = $trade->modal * ($config->profit_percent / 100);
 
             try {
                 DB::transaction(function () use ($trade, $profit, $today) {
