@@ -7,6 +7,7 @@ use Filament\Widgets\AccountWidget;
 use App\Filament\Widgets\WebInfoWidget;
 use App\Filament\Widgets\MaintenanceToggle;
 use App\Filament\Resources\ClearCacheWidgetResource\Widgets\ClearCacheWidget;
+use App\Filament\Widgets\TradeToggleWidget;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\AuthenticateSession;
 use Filament\Http\Middleware\DisableBladeIconComponents;
@@ -50,6 +51,7 @@ class BackendPanelProvider extends PanelProvider
             ->widgets([
                 AccountWidget::class,
                 WebInfoWidget::class,
+                TradeToggleWidget::class,
                 MaintenanceToggle::class,
                 ClearCacheWidget::class,
 
